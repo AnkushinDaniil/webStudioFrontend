@@ -1,28 +1,31 @@
-import { type ReactElement } from 'react'
+import { type ReactElement } from "react"
+import React from "react"
 
-interface Blog {
-  title: string
-  author: string
+interface User {
+  name: string
+  username: string
   id: number
 }
 
-interface propBlog {
-  blogs: Blog[]
+interface propUser {
+  users: User[]
   title: string
+  handleDelete: (arg0: number) => void
 }
 
-const BlogList = ({ blogs, title }: propBlog): ReactElement => {
-  return (
-    <div className="blog-list">
-      <h2>{title}</h2>
-             {blogs.map((blog) => (
-              <div className="blog-preview" key={blog.id}>
-                  <h2>{blog.title}</h2>
-                  <p>Whitten by {blog.author}</p>
-            </div>
-             ))}
+const UserList = ({ users, title, handleDelete }: propUser): ReactElement => {
+    return (
+        <div className="user-list">
+            <h2>{title}</h2>
+            {users.map((user) => (
+                <div className="user-preview" key={user.id}>
+                    <p>name {user.name}</p>
+                    <p>username {user.username}</p>
+                    <button onClick={(): void => { handleDelete(user.id) }}>delete blog</button>
+                </div>
+            ))}
         </div>
-  )
+    )
 }
 
-export default BlogList
+export default UserList
