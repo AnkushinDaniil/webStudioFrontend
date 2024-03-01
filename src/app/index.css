@@ -1,22 +1,19 @@
 /* google font */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;800&family=VT323&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,700/");
 
 /* layout */
 :root {
-  --primary: #1aac83;
+  --primary: #934caf;
   --error: #e7195a;
 }
-
 body {
   background: #f1f1f1;
   margin: 0;
-  font-family: "Poppins";
+  font-family: "Montserrat";
 }
-
 header {
   background: #fff;
 }
-
 header .container {
   max-width: 1400px;
   margin: 0 auto;
@@ -25,12 +22,10 @@ header .container {
   align-items: center;
   justify-content: space-between;
 }
-
 header a {
   color: #333;
   text-decoration: none;
 }
-
 .pages {
   max-width: 1400px;
   padding: 20px;
@@ -43,13 +38,40 @@ header a {
   grid-template-columns: 3fr 1fr;
   gap: 100px;
 }
+.list-details {
+  background: #fff;
+  border-radius: 4px;
+  margin: 20px auto;
+  padding: 20px;
+  position: relative;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+}
+.list-details h4 {
+  margin: 0 0 10px 0;
+  font-size: 1.2em;
+  color: var(--primary);
+}
+.list-details p {
+  margin: 0;
+  font-size: 0.9em;
+  color: #555;
+}
+.list-details span {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  cursor: pointer;
+  background: #f1f1f1;
+  padding: 6px;
+  border-radius: 50%;
+  color: #333;
+}
 
-
+/* new list form */
 label,
 input {
   display: block;
 }
-
 input {
   padding: 10px;
   margin-top: 10px;
@@ -59,17 +81,15 @@ input {
   border-radius: 4px;
   box-sizing: border-box;
 }
-
 form button {
   background: var(--primary);
   border: 0;
   color: #fff;
   padding: 10px;
-  font-family: "Poppins";
+  font-family: "Montserrat";
   border-radius: 4px;
   cursor: pointer;
 }
-
 div.error {
   padding: 10px;
   background: #ffefef;
@@ -78,7 +98,6 @@ div.error {
   border-radius: 4px;
   margin: 20px 0;
 }
-
 input.error {
   border: 1px solid var(--error);
 }
@@ -88,18 +107,16 @@ nav {
   display: flex;
   align-items: center;
 }
-
 nav a {
   margin-left: 10px;
 }
-
 nav button {
   background: #fff;
-  border: 2px solid var(--primary);
   color: var(--primary);
+  border: 2px solid var(--primary);
   padding: 6px 10px;
-  font-family: "Poppins";
   border-radius: 4px;
+  font-family: "Montserrat";
   cursor: pointer;
   font-size: 1em;
 }
