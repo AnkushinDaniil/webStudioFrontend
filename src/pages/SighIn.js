@@ -10,6 +10,8 @@ const SignIn = () => {
         e.preventDefault()
 
         await signIn(username, password)
+        setUsername("")
+        setPassword("")
     }
 
     return (
