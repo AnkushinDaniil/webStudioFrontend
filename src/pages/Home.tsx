@@ -1,12 +1,14 @@
-import { useEffect, type ReactElement, useState } from "react"
+import { useEffect, type ReactElement } from "react"
 import TimeslotsList from "../entities/TimeslotList"
 import { useAuthContext } from "../hooks/useAuthContext"
 import ListDetails from "../components/ListDetails"
 import ListForm from "../components/ListForm"
+import { useListsContext } from "../hooks/useListsContext"
+import { ActionTypes } from "../context/ListContext"
 
 const Home = (): ReactElement => {
-    const [lists, setLists] = useState<TimeslotsList[]|null>(null)
-    const {user, dispatch} = useAuthContext()
+    const {user, dispatch: authDispatch} = useAuthContext()
+    const {lists, dispatch: listDispatch} = useListsContext()
 
     useEffect(():void => {
         const fetchLists = async (): Promise<void> => {
@@ -19,14 +21,14 @@ const Home = (): ReactElement => {
             const json = await response.json()
             
             if (response.ok) {
-                setLists(json.data)
+                listDispatch!({type: ActionTypes.SET_LISTS, payload: json.data})
             }
         }
 
         if (user) {
             fetchLists()
         }
-    }, [user, dispatch])
+    }, [user, authDispatch, listDispatch])
 
     return (
         <div className="home">
