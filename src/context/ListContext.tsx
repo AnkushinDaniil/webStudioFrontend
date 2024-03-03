@@ -1,48 +1,61 @@
-import { ReactNode, createContext, useReducer } from "react"
-import TimeslotsList from "../entities/TimeslotList"
+import { Dispatch, ReactNode, createContext, useReducer } from "react"
+import { ITimeslotsList } from "../entities/TimeslotList"
 
 export enum ActionTypes {
-    SET_LISTS = "SET_LISTS",
-    CREATE_LIST = "CREATE_LIST"
+  SET_LISTS = "SET_LISTS",
+  CREATE_LIST = "CREATE_LIST",
+  DELETE_LIST = "DELETE_LIST"
 }
 
-type List = TimeslotsList|null
-type Lists = List[]|null
+export type List = ITimeslotsList | null;
+export type Lists = List[] | null;
 
 type ListActionType = {
-    type: ActionTypes,
-    payload: List
-}
+  type: ActionTypes;
+  payload: List;
+};
 
 export type State = {
-lists: Lists,
+  lists: Lists|List|null;
+};
+
+export interface CurrentListContextType {
+  lists: Lists;
+  dispatch: Dispatch<ListActionType>;
 }
 
+export const ListContext = createContext<CurrentListContextType|null>(null)
 
-export const ListContext = createContext<unknown>(null)
-
-
-export const listReducer = (state: State, action: ListActionType):State => {
+export const listReducer = (state: State, action: ListActionType): State => {
     const { type, payload } = action
     switch (type) {
-    case "SET_LISTS":
+    case ActionTypes.SET_LISTS:
         return {
-            lists: Array.isArray(payload) ? payload:[payload]
+            lists: payload,
         }
-    case "CREATE_LIST":
-        return {lists: [...(state.lists ?? []), payload]}
+    case ActionTypes.CREATE_LIST:   
+        return { lists: Array.isArray(state.lists)? 
+            ([...state.lists, payload]) :
+            [payload]}
+    case ActionTypes.DELETE_LIST:
+        return {
+            lists: Array.isArray(state.lists)? state.lists.filter((list: List):boolean => list?.id !== payload?.id) : []}
     default:
         return state
     }
 }
 
-export const ListContextProvider = ({ children }: { children: ReactNode }): JSX.Element => {
-    const [state, dispatch] = useReducer(listReducer, {lists:null})
-
+export const ListContextProvider = ({
+    children,
+}: {
+  children: ReactNode;
+}): JSX.Element => {
+    const [state, dispatch] = useReducer(listReducer, { lists: null })
+    
     return (
-        <ListContext.Provider value={{ ...state, dispatch }}>
+        <ListContext.Provider value={{ lists: Array.isArray(state.lists)? 
+            (state.lists) : null, dispatch }}>
             {children}
         </ListContext.Provider>
     )
 }
-
