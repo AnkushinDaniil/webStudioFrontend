@@ -1,15 +1,8 @@
-import { ListContext } from "../context/ListContext"
 import { useContext } from "react"
-import TimeslotsList from "../entities/TimeslotList"
+import { CurrentListContextType, ListContext } from "../context/ListContext"
 
-interface IDispatch  {
-  ( arg1?: {type: string,  payload?: Promise<unknown>}): void
-}
 
-export const useListsContext = (): {
-  lists?: Array<TimeslotsList>;
-  dispatch?: IDispatch;
-} => {
+export const useListsContext = (): CurrentListContextType => {
     const context = useContext(ListContext)
 
     if (context == null) {

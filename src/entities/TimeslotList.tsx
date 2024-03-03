@@ -1,19 +1,14 @@
 import { type ReactElement } from "react"
 
-interface TimeslotsList {
-  name: string
-  username: string
+export interface ITimeslotsList {
   id: number
+  title: string
+  description: string
 }
 
-interface TimeslotsList {
-	id :         number   
-	title :      string 
-	description: string 
-}
 
 interface propUser {
-  timeslotsLists: TimeslotsList[]
+  timeslotsLists: ITimeslotsList[]
   title: string
   handleDelete: (arg0: number) => void
 }
