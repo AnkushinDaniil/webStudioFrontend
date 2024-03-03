@@ -1,7 +1,13 @@
 import { useState } from "react"
 import { useAuthContext } from "../hooks/useAuthContext"
+import { useListsContext } from "../hooks/useListsContext"
+import { ActionTypes } from "../context/ListContext"
+
+
+
 
 const ListForm = (): JSX.Element => {
+    const {dispatch} = useListsContext()
     const [title, setTitle] = useState("")
     const [description, setDescription] = useState("")
     const [error, setError] = useState(null)
@@ -31,6 +37,13 @@ const ListForm = (): JSX.Element => {
             setDescription("")
             setError(null)
             console.log("New list was added", json)
+            dispatch!({
+                type: ActionTypes.CREATE_LIST, 
+                payload: {
+                    id: +json.id,
+                    title: title,
+                    description: description
+                } })
         }
 
     }
