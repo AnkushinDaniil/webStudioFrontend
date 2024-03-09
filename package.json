@@ -1,27 +1,21 @@
 {
-  "proxy": "http://localhost:8000",
-  "name": "my-app",
+  "name": "studio-frontend",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "dependencies": {
-    "@hookform/resolvers": "^3.3.4",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.0.0",
     "@testing-library/user-event": "^13.2.1",
-    "@ts-react/form": "^1.8.3",
     "@types/jest": "^27.0.1",
     "@types/node": "^16.7.13",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
-    "axios": "^1.6.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-hook-form": "^7.50.1",
-    "react-router-dom": "^6.22.2",
+    "react-router-dom": "^6.22.3",
     "react-scripts": "5.0.1",
-    "typescript": "*",
-    "web-vitals": "^2.1.0",
-    "zod": "^3.22.4"
+    "typescript": "^5.4.2",
+    "web-vitals": "^2.1.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -48,13 +42,18 @@
     ]
   },
   "devDependencies": {
-    "@types/react-router-dom": "^5.3.3",
-    "@typescript-eslint/eslint-plugin": "^6.4.0",
+    "@typescript-eslint/eslint-plugin": "^7.1.1",
+    "@typescript-eslint/parser": "^7.1.1",
     "eslint": "^8.0.1",
     "eslint-config-standard-with-typescript": "^43.0.1",
     "eslint-plugin-import": "^2.25.2",
     "eslint-plugin-n": "^15.0.0 || ^16.0.0 ",
     "eslint-plugin-promise": "^6.0.0",
-    "eslint-plugin-react": "^7.33.2"
-  }
+    "eslint-plugin-react": "^7.34.0"
+  },
+  "main": "./src/index.tsx",
+  "repository": "https://github.com/AnkushinDaniil/webStudioFrontend.git",
+  "author": "AnkushinDaniil <ankushin.daniil42@gmail.com>",
+  "license": "MIT",
+  "proxy": "http://localhost:8000"
 }

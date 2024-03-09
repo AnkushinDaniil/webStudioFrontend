@@ -1,9 +1,9 @@
 import React from "react"
 import ReactDOM from "react-dom/client"
 import "../src/app/index.css"
-import App from "./app/App"
-import { AuthContextProvider } from "./context/AuthContext"
-import { ListContextProvider } from "./context/ListContext"
+import { AuthContextProvider } from "./shared/context/AuthContext"
+import { ListContextProvider } from "./shared/context/ListContext"
+import App from "App"
 
 const root = ReactDOM.createRoot(
   document.getElementById("root")!

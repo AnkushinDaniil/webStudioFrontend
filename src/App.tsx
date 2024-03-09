@@ -1,9 +1,10 @@
+import { Home } from "pages/Home"
+import { ListPage } from "pages/Lists"
+import {SignIn} from "pages/SighIn"
+import {SignUp} from "pages/SighUp"
 import { type ReactElement } from "react"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
-import Navbar from "../components/Navbar"
-import Home from "../pages/Home"
-import SignUp from "../pages/SignUp"
-import SignIn from "../pages/SighIn"
+import { Navbar } from "widgets/navbar"
 
 function App (): ReactElement {
     return (
@@ -23,6 +24,10 @@ function App (): ReactElement {
                         <Route
                             path="/sign-up"
                             element={<SignUp />}
+                        />
+                        <Route
+                            path="/lists"
+                            element={<ListPage />}
                         />
                     </Routes>
                 </div>

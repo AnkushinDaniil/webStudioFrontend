@@ -1,4 +1,4 @@
-import { AuthContext } from "../context/AuthContext"
+import { AuthContext } from "shared/context/AuthContext"
 import { useContext } from "react"
 
 interface IDispatch  {

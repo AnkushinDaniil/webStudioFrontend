@@ -1,10 +1,7 @@
+import { ActionTypes } from "entities/list"
+import { useAuthContext } from "shared/hooks/useAuthContext"
+import { useListsContext } from "shared/hooks/useListsContext"
 import { useState } from "react"
-import { useAuthContext } from "../hooks/useAuthContext"
-import { useListsContext } from "../hooks/useListsContext"
-import { ActionTypes } from "../context/ListContext"
-
-
-
 
 const ListForm = (): JSX.Element => {
     const {dispatch} = useListsContext()

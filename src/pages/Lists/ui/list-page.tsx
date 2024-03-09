@@ -1,11 +1,12 @@
+import { ActionTypes, List } from "entities/list"
+import ListDetails from "features/list/ListDetails"
+import ListForm from "features/list/ListForm"
+import { useAuthContext } from "shared/hooks/useAuthContext"
+import { useListsContext } from "shared/hooks/useListsContext"
 import { useEffect, type ReactElement } from "react"
-import { useAuthContext } from "../hooks/useAuthContext"
-import ListDetails from "../components/ListDetails"
-import ListForm from "../components/ListForm"
-import { useListsContext } from "../hooks/useListsContext"
-import { ActionTypes, List } from "../context/ListContext"
 
-const Home = (): ReactElement => {
+
+export const ListPage = (): ReactElement => {
     const {user} = useAuthContext()
     const {lists, dispatch} = useListsContext()
 
@@ -20,7 +21,7 @@ const Home = (): ReactElement => {
             const json = await response.json()            
             
             if (response.ok) {
-                dispatch!({type: ActionTypes.SET_LISTS, payload: json.data})
+                dispatch({type: ActionTypes.SET_LISTS, payload: json.data})
             }
         }
 
@@ -43,6 +44,3 @@ const Home = (): ReactElement => {
         </div>
     )
 }
-
-export default Home
-

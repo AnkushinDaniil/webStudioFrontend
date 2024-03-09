@@ -1,9 +1,9 @@
+import { useAuthContext } from "shared/hooks/useAuthContext"
+import { useLogout } from "shared/hooks/useLogout"
 import { Link } from "react-router-dom"
-import { useLogout } from "../hooks/useLogout"
-import { useAuthContext } from "../hooks/useAuthContext"
 
 
-const Navbar = (): JSX.Element => {
+export const Navbar: React.FC = () => {
     const { logout } = useLogout()
     const { user } = useAuthContext()
 
@@ -36,5 +36,3 @@ const Navbar = (): JSX.Element => {
         </header>
     )
 }
-
-export default Navbar

@@ -1,19 +1,5 @@
 import { Dispatch, ReactNode, createContext, useReducer } from "react"
-import { ITimeslotsList } from "../entities/TimeslotList"
-
-export enum ActionTypes {
-  SET_LISTS = "SET_LISTS",
-  CREATE_LIST = "CREATE_LIST",
-  DELETE_LIST = "DELETE_LIST"
-}
-
-export type List = ITimeslotsList | null;
-export type Lists = List[] | null;
-
-type ListActionType = {
-  type: ActionTypes;
-  payload: List;
-};
+import { Lists, List, ListActionType, ActionTypes } from "entities/list"
 
 export type State = {
   lists: Lists|List|null;

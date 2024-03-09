@@ -27,8 +27,6 @@ export const AuthContextProvider = ({ children }: {children: ReactNode}): JSX.El
         }
     }, [])
 
-    console.log("AuthContext state:", state)
-
     return (
         <AuthContext.Provider value={{ ...state as object, dispatch }}>
             {children}

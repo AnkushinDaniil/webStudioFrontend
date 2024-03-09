@@ -1,14 +1,12 @@
-import { ActionTypes } from "../context/ListContext"
-import {ITimeslotsList} from "../entities/TimeslotList"
-import { useAuthContext } from "../hooks/useAuthContext"
-import { useListsContext } from "../hooks/useListsContext"
+import { List, ActionTypes } from "entities/list"
+import { useAuthContext } from "shared/hooks/useAuthContext"
+import { useListsContext } from "shared/hooks/useListsContext"
 
-
-const ListDetails = ({list}: {list: ITimeslotsList}): JSX.Element => {
+const ListDetails = ({list}: {list: List}): JSX.Element => {
     const {user} = useAuthContext()
     const {dispatch} = useListsContext()
     const handleClick = async(): Promise<void> => {
-        const response = await fetch(`/api/lists/${list.id}`, {
+        const response = await fetch(`/api/lists/${list?.id}`, {
             headers : {
                 "Authorization": `Bearer ${user!.token}`,
                 "Content-Type": "application/json; charset=utf-8"
@@ -23,8 +21,8 @@ const ListDetails = ({list}: {list: ITimeslotsList}): JSX.Element => {
     
     return (
         <div className="list-details">
-            <h4>{list.title}</h4>
-            <p>{list.description}</p>
+            <h4>{list?.title}</h4>
+            <p>{list?.description}</p>
             <span onClick={handleClick}>delete</span>
         </div>
     )

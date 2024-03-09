@@ -1,20 +1,21 @@
-import React, { useState } from "react"
-import { useSighUp } from "../hooks/useSignUp"
 
-const SignUp = () => {
+import { useSighUp } from "shared/hooks/useSighUp"
+import React, { useState } from "react"
+
+export const SignUp: React.FC = () => {
     const [name, setName] = useState("")
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const {signUp, error, isLoading} = useSighUp()
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: { preventDefault: () => void }): Promise<void> => {
         e.preventDefault()
 
         await signUp(name, username, password)
     }
 
     return (
-        <form className="signup" onSubmit={handleSubmit}>
+        <form className="signUp" onSubmit={handleSubmit}>
             <h3>Sign Up</h3>
 
             <label>Name:</label>
@@ -41,5 +42,3 @@ const SignUp = () => {
         </form>
     )
 }
-
-export default SignUp
