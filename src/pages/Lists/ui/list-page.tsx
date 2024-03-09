@@ -1,9 +1,10 @@
 import { ActionTypes, List } from "entities/list"
-import ListDetails from "features/list/ListDetails"
-import ListForm from "features/list/ListForm"
+import { ReactElement, useEffect } from "react"
 import { useAuthContext } from "shared/hooks/useAuthContext"
 import { useListsContext } from "shared/hooks/useListsContext"
-import { useEffect, type ReactElement } from "react"
+import ListDetails from "widgets/ListDetails"
+import ListForm from "widgets/ListForm"
+
 
 
 export const ListPage = (): ReactElement => {
@@ -31,7 +32,7 @@ export const ListPage = (): ReactElement => {
     }, [ lists, user, dispatch])    
 
     return (
-        <div className="home">
+        <div className="list-page">
             {user?.token && (
                 <div className="lists">
                     {lists && lists.map((list:List) => (

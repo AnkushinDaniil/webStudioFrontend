@@ -37,14 +37,19 @@ header a {
     margin: 0 auto;
 }
 
-/* homepage */
 .home {
     display: grid;
     grid-template-columns: 3fr 1fr;
     gap: 100px;
 }
 
-.list-details {
+.list-page {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 100px;
+}
+
+.list-cell {
     background: #fff;
     border-radius: 4px;
     margin: 20px auto;
@@ -53,19 +58,19 @@ header a {
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
 }
 
-.list-details h4 {
+.list-cell h4 {
     margin: 0 0 10px 0;
     font-size: 1.2em;
     color: var(--primary);
 }
 
-.list-details p {
+.list-cell p {
     margin: 0;
     font-size: 0.9em;
     color: #555;
 }
 
-.list-details span {
+.list-cell span {
     position: absolute;
     top: 20px;
     right: 20px;

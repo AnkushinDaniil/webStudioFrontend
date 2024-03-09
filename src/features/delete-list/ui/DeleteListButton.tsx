@@ -1,12 +1,13 @@
-import { List, ActionTypes } from "entities/list"
+import { ActionTypes } from "entities/list"
 import { useAuthContext } from "shared/hooks/useAuthContext"
 import { useListsContext } from "shared/hooks/useListsContext"
 
-const ListDetails = ({list}: {list: List}): JSX.Element => {
+
+export const DeleteListButton = (id: number): JSX.Element => {
     const {user} = useAuthContext()
     const {dispatch} = useListsContext()
-    const handleClick = async(): Promise<void> => {
-        const response = await fetch(`/api/lists/${list?.id}`, {
+    const deleteList = async(): Promise<void> => {
+        const response = await fetch(`/api/lists/${id}`, {
             headers : {
                 "Authorization": `Bearer ${user!.token}`,
                 "Content-Type": "application/json; charset=utf-8"
@@ -18,14 +19,7 @@ const ListDetails = ({list}: {list: List}): JSX.Element => {
             dispatch({type:ActionTypes.DELETE_LIST, payload:json})
         }
     }
-    
     return (
-        <div className="list-details">
-            <h4>{list?.title}</h4>
-            <p>{list?.description}</p>
-            <span onClick={handleClick}>delete</span>
-        </div>
+        <span onClick={deleteList}>delete</span>
     )
 }
-
-export default ListDetails

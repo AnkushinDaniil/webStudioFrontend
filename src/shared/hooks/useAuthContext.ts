@@ -1,18 +1,10 @@
 import { AuthContext } from "shared/context/AuthContext"
-import { useContext } from "react"
-
-interface IDispatch  {
-  ( arg1?: {type: string,  payload?: Promise<unknown>}): void
-}
+import { Dispatch, useContext } from "react"
+import { User } from "entities/user"
 
 export const useAuthContext = (): { 
-  dispatch?: IDispatch, 
-  user?: {
-    name?: string,
-    username?: string,
-    password?: string,
-    token?: string
-  } 
+  dispatch?: Dispatch<unknown>, 
+  user?: User
 } => {
     const context = useContext(AuthContext)
 

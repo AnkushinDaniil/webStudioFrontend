@@ -31,7 +31,7 @@ export const Home: React.FC = () => {
         <div className="home">
             {user?.token && (
                 <div>
-                    <Link to="/lists">Lists</Link>
+                    <Link className="list-details" to="/lists">Lists</Link>
                 </div>
             )}
         </div>
