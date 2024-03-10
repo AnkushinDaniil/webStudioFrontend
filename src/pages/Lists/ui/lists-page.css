@@ -1,47 +1,17 @@
-form .container {
+.pages {
     max-width: 1400px;
+    padding: 20px;
     margin: 0 auto;
-    padding: 10px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
 }
 
-
-label,
-input {
-    display: inline
+.home {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 100px;
 }
 
-input {
-    padding: 10px;
-    margin-top: 10px;
-    margin-bottom: 20px;
-    width: 100%;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box;
-}
-
-form button {
-    background: var(--primary);
-    border: 0;
-    color: #000000;
-    padding: 10px;
-    font-family: "Montserrat";
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-div.error {
-    padding: 10px;
-    background: #ffefef;
-    border: 1px solid var(--error);
-    color: var(--error);
-    border-radius: 4px;
-    margin: 20px 0;
-}
-
-input.error {
-    border: 1px solid var(--error);
+.list-page {
+    display: grid;
+    grid-template-columns: 2fr 2fr;
+    gap: 100px;
 }

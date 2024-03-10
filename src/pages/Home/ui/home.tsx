@@ -1,9 +1,10 @@
 
+import { FC } from "react"
 import { Link } from "react-router-dom"
 import { useAuthContext } from "shared/hooks/useAuthContext"
 
 
-export const Home: React.FC = () => {
+export const Home: FC = () => {
     const {user} = useAuthContext()
 
     return (
@@ -11,6 +12,7 @@ export const Home: React.FC = () => {
             {user?.token && (
                 <div>
                     <Link className="list-details" to="/lists">Lists</Link>
+                    <Link className="list-details" to="/schedule">Schedule</Link>
                 </div>
             )}
         </div>

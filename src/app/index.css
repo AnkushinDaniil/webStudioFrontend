@@ -31,23 +31,7 @@ header a {
     text-decoration: none;
 }
 
-.pages {
-    max-width: 1400px;
-    padding: 20px;
-    margin: 0 auto;
-}
 
-.home {
-    display: grid;
-    grid-template-columns: 3fr 1fr;
-    gap: 100px;
-}
-
-.list-page {
-    display: grid;
-    grid-template-columns: 2fr 2fr;
-    gap: 100px;
-}
 
 
 

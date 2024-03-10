@@ -1,6 +1,7 @@
 import { Home } from "pages/Home"
 import { ListPage } from "pages/List"
 import { ListsPage } from "pages/Lists"
+import { Schedule } from "pages/Schedule"
 
 import {SignIn} from "pages/SighIn"
 import {SignUp} from "pages/SighUp"
@@ -34,6 +35,10 @@ function App (): ReactElement {
                         <Route
                             path="/lists/:id/items"
                             element={<ListPage />}
+                        />
+                        <Route
+                            path="/schedule"
+                            element={<Schedule />}
                         />
                     </Routes>
                 </div>
