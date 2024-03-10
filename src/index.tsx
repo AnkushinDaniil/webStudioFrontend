@@ -4,6 +4,7 @@ import "../src/app/index.css"
 import { AuthContextProvider } from "./shared/context/AuthContext"
 import { ListContextProvider } from "./shared/context/ListContext"
 import App from "App"
+import { ItemContextProvider } from "shared/context/ItemContext"
 
 const root = ReactDOM.createRoot(
   document.getElementById("root")!
@@ -12,7 +13,9 @@ root.render(
     <React.StrictMode>
         <AuthContextProvider>
             <ListContextProvider>
-                <App />
+                <ItemContextProvider>
+                    <App />
+                </ItemContextProvider>
             </ListContextProvider>
         </AuthContextProvider>
     </React.StrictMode>

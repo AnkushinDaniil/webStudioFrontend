@@ -1,5 +1,5 @@
 import { Dispatch, ReactNode, createContext, useReducer } from "react"
-import { Lists, List, ListActionType, ActionTypes } from "entities/list"
+import { Lists, List, ListActionType, ListActionTypes } from "entities/list"
 
 export type State = {
   lists: Lists|List|null;
@@ -15,15 +15,15 @@ export const ListContext = createContext<CurrentListContextType|null>(null)
 export const listReducer = (state: State, action: ListActionType): State => {
     const { type, payload } = action
     switch (type) {
-    case ActionTypes.SET_LISTS:
+    case ListActionTypes.SET_LISTS:
         return {
             lists: payload,
         }
-    case ActionTypes.CREATE_LIST:   
+    case ListActionTypes.CREATE_LIST:   
         return { lists: Array.isArray(state.lists)? 
             ([...state.lists, payload]) :
             [payload]}
-    case ActionTypes.DELETE_LIST:
+    case ListActionTypes.DELETE_LIST:
         return {
             lists: Array.isArray(state.lists)? state.lists.filter((list: List):boolean => list?.id !== payload?.id) : []}
     default:

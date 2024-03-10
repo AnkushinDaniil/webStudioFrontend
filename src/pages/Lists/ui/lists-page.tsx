@@ -1,19 +1,20 @@
-import { ActionTypes, List } from "entities/list"
+import { ListActionTypes, List } from "entities/list"
 import { ReactElement, useEffect } from "react"
 import { useAuthContext } from "shared/hooks/useAuthContext"
 import { useListsContext } from "shared/hooks/useListsContext"
-import ListDetails from "widgets/ListDetails"
-import ListForm from "widgets/ListForm"
+import ListDetails from "widgets/list/ListDetails"
+import ListForm from "widgets/list/ListForm"
+import "./lists-page.css"
 
 
 
-export const ListPage = (): ReactElement => {
+export const ListsPage = (): ReactElement => {
     const {user} = useAuthContext()
     const {lists, dispatch} = useListsContext()
 
     useEffect(():void => {
         const fetchLists = async (): Promise<void> => {
-            const response = await fetch("/api/lists", {
+            const response = await fetch("/api/lists/", {
                 headers : {
                     "Authorization": `Bearer ${user!.token}`
                 },
@@ -22,7 +23,7 @@ export const ListPage = (): ReactElement => {
             const json = await response.json()            
             
             if (response.ok) {
-                dispatch({type: ActionTypes.SET_LISTS, payload: json.data})
+                dispatch({type: ListActionTypes.SET_LISTS, payload: json.data})
             }
         }
 

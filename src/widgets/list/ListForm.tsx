@@ -1,4 +1,4 @@
-import { ActionTypes } from "entities/list"
+import { ListActionTypes } from "entities/list"
 import { useAuthContext } from "shared/hooks/useAuthContext"
 import { useListsContext } from "shared/hooks/useListsContext"
 import { useState } from "react"
@@ -35,7 +35,7 @@ const ListForm = (): JSX.Element => {
             setError(null)
             console.log("New list was added", json)
             dispatch!({
-                type: ActionTypes.CREATE_LIST, 
+                type: ListActionTypes.CREATE_LIST, 
                 payload: {
                     id: +json.id,
                     title: title,

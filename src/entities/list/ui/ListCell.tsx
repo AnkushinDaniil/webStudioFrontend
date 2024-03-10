@@ -1,15 +1,20 @@
 import { FC, ReactElement } from "react"
 import { List } from "../model/types"
+import { Link } from "react-router-dom"
+import "./ListCell.css"
 
 interface ListCellProps {
     list: List,
-    deleteButton: ReactElement
+    deleteButton: ReactElement,
+    // listRedirect: VoidFunction
 }
 
 export const ListCell :FC<ListCellProps> = ({list, deleteButton}) => {
     return (
         <div className="list-cell">
-            <h4>{list?.title}</h4>
+            <Link to={{
+                pathname: `/lists/${list?.id}/items`,
+            }}>{list?.title}</Link>
             <p>{list?.description}</p>
             {deleteButton}
         </div>

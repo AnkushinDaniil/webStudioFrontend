@@ -1,4 +1,4 @@
-import { ActionTypes } from "entities/list"
+import { ListActionTypes } from "entities/list"
 import { useAuthContext } from "shared/hooks/useAuthContext"
 import { useListsContext } from "shared/hooks/useListsContext"
 
@@ -16,7 +16,7 @@ export const DeleteListButton = (id: number): JSX.Element => {
         })
         const json = await response.json()
         if (response.ok) {
-            dispatch({type:ActionTypes.DELETE_LIST, payload:json})
+            dispatch({type:ListActionTypes.DELETE_LIST, payload:json})
         }
     }
     return (

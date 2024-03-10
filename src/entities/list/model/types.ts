@@ -6,13 +6,13 @@ export type List = {
 
 export type Lists = List[] | null;
 
-export enum ActionTypes {
+export enum ListActionTypes {
     SET_LISTS = "SET_LISTS",
     CREATE_LIST = "CREATE_LIST",
     DELETE_LIST = "DELETE_LIST"
   }
 
 export type ListActionType = {
-  type: ActionTypes;
+  type: ListActionTypes;
   payload: List;
 };

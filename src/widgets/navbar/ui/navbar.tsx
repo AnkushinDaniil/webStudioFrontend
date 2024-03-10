@@ -1,6 +1,7 @@
 import { useAuthContext } from "shared/hooks/useAuthContext"
 import { useLogout } from "shared/hooks/useLogout"
 import { Link } from "react-router-dom"
+import "./navbar.css"
 
 
 export const Navbar: React.FC = () => {
