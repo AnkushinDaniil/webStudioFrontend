@@ -3,6 +3,7 @@ import { useState, FC } from "react"
 import { momentLocalizer, Calendar } from "react-big-calendar"
 import { useAuthContext } from "shared/hooks/useAuthContext"
 import "react-big-calendar/lib/css/react-big-calendar.css"
+import "./schedule.css"
 
 type Range = Date[] | {
     start: Date;
@@ -25,7 +26,6 @@ export const Schedule:FC = () => {
     const [events, setEvents] = useState<Array<CalendarEvent>>([])
 
     const onRangeChange =  async (range: Range): Promise<void> => {
-        console.log(range)
         
         let start, end : Date
         if (Array.isArray(range)) {
@@ -37,8 +37,6 @@ export const Schedule:FC = () => {
         }
         start.setHours(0, 0, 0)
         end.setHours(23, 59, 59)
-
-        console.log(start, end)
         
         const response = await fetch("/api/schedule/", {
             headers : {
@@ -50,7 +48,6 @@ export const Schedule:FC = () => {
         })
 
         const json = (await response.json()).data
-        console.log(json)
     
         const newEvents: CalendarEvent[] = []
         
