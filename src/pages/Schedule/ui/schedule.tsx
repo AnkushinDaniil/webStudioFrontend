@@ -38,13 +38,12 @@ export const Schedule:FC = () => {
         start.setHours(0, 0, 0)
         end.setHours(23, 59, 59)
         
-        const response = await fetch("/api/schedule/", {
+        const response = await fetch(`/api/schedule?start=${start.toISOString()}&end=${end.toISOString()}`, {
             headers : {
                 "Authorization": `Bearer ${user!.token}`,
                 "Content-Type": "application/json; charset=utf-8"
             },
-            method: "POST",
-            body: JSON.stringify({start: start, end: end}),
+            method: "GET",
         })
 
         const json = (await response.json()).data
