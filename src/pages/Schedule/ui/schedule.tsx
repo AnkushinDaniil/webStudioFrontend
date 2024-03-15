@@ -2,8 +2,9 @@ import moment from "moment"
 import { useState, FC, useEffect, useCallback } from "react"
 import { momentLocalizer, Calendar, Views, View } from "react-big-calendar"
 import { useAuthContext } from "shared/hooks/useAuthContext"
-import "react-big-calendar/lib/css/react-big-calendar.css"
 import "./schedule.css"
+import "./modal.css"
+import { Modal } from "widgets/form"
 
 type Range = Date[] | {
     start: Date;
@@ -11,6 +12,7 @@ type Range = Date[] | {
 }
 
 type CalendarEvent = {
+    id: number,
     title: string,
     start: Date,
     end: Date,
@@ -86,6 +88,7 @@ export const Schedule:FC = () => {
                     for (const item of json) {            
                         newEvents.push(
                             {
+                                id: item.id,
                                 title: item.username,
                                 start: new Date(item.start),
                                 end: new Date(item.end),
@@ -106,20 +109,46 @@ export const Schedule:FC = () => {
     const onRangeChange = useCallback((newRange: Range) => setRange(newRange), [setRange])
     const onView = useCallback((newView: View) => setView(newView), [setView])
 
-
+    const [modal, setModal] = useState<boolean>(false)
+    const [eventId, setEventId] = useState<number>(0)
+  
+    const toggleModal = (eventId: number):void => {
+        setModal(!modal)      
+        setEventId(eventId) 
+    }
+  
+    if(modal) {
+        document.body.classList.add("active-modal")
+    } else {
+        document.body.classList.remove("active-modal")
+    }
+   
     return (
-        <div className="myCustomHeight">
-            <Calendar
-                localizer={localizer}
-                events={events}
-                startAccessor="start"
-                endAccessor="end"
-                // onSelectEvent={(event: Event) => {console.log(event)}}
-                onRangeChange={(range: Range) => {onRangeChange(range)}}
-                defaultView={view}
-                onView={onView}
-                onNavigate={onNavigate}
-            />
+        <div>
+            <div className="myCustomHeight">
+                <Calendar
+                    localizer={localizer}
+                    events={events}
+                    startAccessor="start"
+                    endAccessor="end"
+                    onSelectEvent={(event: CalendarEvent) => {toggleModal(event.id)}}
+                    onRangeChange={(range: Range) => {onRangeChange(range)}}
+                    defaultView={view}
+                    onView={onView}
+                    onNavigate={onNavigate}
+                />
+            </div>
+            {modal && (
+                <div className="modal">
+                    <div onClick={() => toggleModal(eventId)} className="overlay"></div>
+                    <div className="modal-content">
+                        <Modal id={eventId} />
+                        <button className="close-modal" onClick={() => toggleModal(eventId)}>
+                            CLOSE
+                        </button>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }
