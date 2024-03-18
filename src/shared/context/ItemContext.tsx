@@ -15,10 +15,24 @@ export const ItemContext = createContext<CurrentItemContextType|null>(null)
 
 export const itemReducer = (state: State, action: ItemActionType): State => {
     const { type, payload } = action
+    const items = []
     switch (type) {
     case ItemActionTypes.SET_ITEMS:
+        if (Array.isArray(payload)) {
+            for (const item of payload) {            
+                items.push({
+                    id: item.id,
+                    user: item.username,
+                    title: item.title,
+                    description: item.description,
+                    start: new Date(item.start),
+                    end: new Date(item.end),
+                    done: item.done,
+                })
+            }
+        }
         return {
-            items: payload,
+            items: items,
         }
     case ItemActionTypes.CREATE_ITEM:   
         return { items: Array.isArray(state.items)? 

@@ -59,8 +59,8 @@ const ItemForm = (): JSX.Element => {
                     id: +json.id,
                     title: title,
                     description: description,
-                    start: new Date(start!.toString()).toISOString(),
-                    end: new Date(end!.toString()).toISOString(),
+                    start: new Date(start!.toString()),
+                    end: new Date(end!.toString()),
                     done: done
                 }}
             )

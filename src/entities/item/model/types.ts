@@ -1,9 +1,10 @@
 export type Item = {
     id: number,
+    user?: string,
     title: string,
     description: string,
-    start: string,
-    end: string,
+    start: Date,
+    end: Date,
     done: boolean
 } | null
 
