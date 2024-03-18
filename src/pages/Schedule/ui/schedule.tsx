@@ -3,21 +3,12 @@ import { useState, FC, useEffect, useCallback } from "react"
 import { momentLocalizer, Calendar, Views, View } from "react-big-calendar"
 import { useAuthContext } from "shared/hooks/useAuthContext"
 import "./schedule.css"
-import "./modal.css"
-import { Modal } from "widgets/form"
+import { Modal } from "widgets/modal"
+import { CalendarEvent } from "entities/event"
 
 type Range = Date[] | {
     start: Date;
     end: Date;
-}
-
-type CalendarEvent = {
-    id: number,
-    title: string,
-    start: Date,
-    end: Date,
-    allDay?: boolean
-    resource?: unknown  
 }
 
 const getRange = (date: Date, view: View): Range => {
@@ -86,13 +77,16 @@ export const Schedule:FC = () => {
             
                 if (Array.isArray(json)) {
                     for (const item of json) {            
-                        newEvents.push(
-                            {
-                                id: item.id,
-                                title: item.username,
-                                start: new Date(item.start),
-                                end: new Date(item.end),
-                            })
+                        newEvents.push({
+                            id: item.id,
+                            user: item.username,
+                            color: item.color,
+                            title: item.title,
+                            description: item.description,
+                            start: new Date(item.start),
+                            end: new Date(item.end),
+                            done: item.done,
+                        })
                     }
                 }
 
@@ -105,23 +99,45 @@ export const Schedule:FC = () => {
         }
     }, [ user, date, view, range])    
 
+    const toggleModal = (event: CalendarEvent):void => {
+        setModal(!modal)      
+        setEvent(event) 
+    }
+
     const onNavigate = useCallback((newDate: Date) => setDate(newDate), [setDate])
     const onRangeChange = useCallback((newRange: Range) => setRange(newRange), [setRange])
     const onView = useCallback((newView: View) => setView(newView), [setView])
+    const onSelectEvent = useCallback((item: CalendarEvent) => toggleModal(item), [toggleModal])
 
     const [modal, setModal] = useState<boolean>(false)
-    const [eventId, setEventId] = useState<number>(0)
+    const [event, setEvent] = useState<CalendarEvent>({
+        id: 0,
+        user: "",
+        title: "",
+        description: "",
+        start: new Date(),
+        end: new Date(),
+        done: false,
+    } )
   
-    const toggleModal = (eventId: number):void => {
-        setModal(!modal)      
-        setEventId(eventId) 
-    }
   
     if(modal) {
         document.body.classList.add("active-modal")
     } else {
         document.body.classList.remove("active-modal")
     }
+
+    const eventPropGetter = useCallback(
+        (event: CalendarEvent) => ({
+            ...{
+                style: {
+                    backgroundColor: `#${event.color}`,
+                },
+            }
+        }),
+        []
+    )
+    
    
     return (
         <div>
@@ -131,21 +147,24 @@ export const Schedule:FC = () => {
                     events={events}
                     startAccessor="start"
                     endAccessor="end"
-                    onSelectEvent={(event: CalendarEvent) => {toggleModal(event.id)}}
+                    onSelectEvent={onSelectEvent}
                     onRangeChange={(range: Range) => {onRangeChange(range)}}
                     defaultView={view}
                     onView={onView}
                     onNavigate={onNavigate}
+                    eventPropGetter={eventPropGetter}
                 />
             </div>
             {modal && (
                 <div className="modal">
-                    <div onClick={() => toggleModal(eventId)} className="overlay"></div>
+                    <div onClick={() => toggleModal(event)} className="overlay"></div>
                     <div className="modal-content">
-                        <Modal id={eventId} />
-                        <button className="close-modal" onClick={() => toggleModal(eventId)}>
-                            CLOSE
-                        </button>
+                        <Modal event={event} />
+                        <div className="container">
+                            <button className="close-modal" onClick={() => toggleModal(event)}>
+                                {"❌"}
+                            </button>
+                        </div>
                     </div>
                 </div>
             )}
