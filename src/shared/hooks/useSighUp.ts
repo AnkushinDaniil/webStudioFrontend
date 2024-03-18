@@ -2,7 +2,7 @@ import { useState } from "react"
 import { useAuthContext } from "./useAuthContext"
 
 export const useSighUp = (): {
-  signUp: (name: string,username: string, password: string) => Promise<void>;
+  signUp: (name: string, color: string, username: string, password: string) => Promise<void>;
   isLoading: boolean;
   error: null;
 } => {
@@ -10,14 +10,15 @@ export const useSighUp = (): {
     const [isLoading, setIsLoading] = useState(false)
     const { dispatch } = useAuthContext()
 
-    const signUp = async (name: string, username: string, password: string): Promise<void> => {
+    const signUp = async (name: string, color: string, username: string, password: string): Promise<void> => {
         setIsLoading(true)
         setError(null)
+        color = color.slice(1)
 
         const response = await fetch("/auth/sign-up", {
             method: "POST",
             headers: { "Content-Type": "application/json; charset=utf-8" },
-            body: JSON.stringify({ name, username, password }),
+            body: JSON.stringify({ name, color, username, password }),
         })
 
         const json = await response.json()

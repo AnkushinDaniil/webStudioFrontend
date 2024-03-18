@@ -1,17 +1,22 @@
 
 import { useSighUp } from "shared/hooks/useSighUp"
 import React, { useState } from "react"
+import "./sign-up.css"
+import { hsvaToHex } from "@uiw/color-convert"
+import { ColorPicker } from "entities/color"
+
 
 export const SignUp: React.FC = () => {
     const [name, setName] = useState("")
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
+    const [hsva, setHsva] = useState({ h: 214, s: 43, v: 90, a: 1 })
     const {signUp, error, isLoading} = useSighUp()
 
     const handleSubmit = async (e: { preventDefault: () => void }): Promise<void> => {
         e.preventDefault()
 
-        await signUp(name, username, password)
+        await signUp(name, hsvaToHex(hsva), username, password)
     }
 
     return (
@@ -30,6 +35,8 @@ export const SignUp: React.FC = () => {
                 onChange={(e) => { setUsername(e.target.value) }}
                 value={username}
             />
+            <label>Color:</label>
+            <ColorPicker hsva={hsva} setHsva={setHsva}/>
             <label>Password:</label>
             <input
                 type="password"
