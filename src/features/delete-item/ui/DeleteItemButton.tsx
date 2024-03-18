@@ -3,7 +3,7 @@ import { useAuthContext } from "shared/hooks/useAuthContext"
 import { useItemsContext } from "shared/hooks/useItemsContext"
 
 
-export const DeleteItemButton = (id: number): JSX.Element => {
+export const DeleteItemButton = ({id}: {id:number}): JSX.Element => {
     const {user} = useAuthContext()
     const {dispatch} = useItemsContext()
     const deleteItem = async(): Promise<void> => {
@@ -20,6 +20,6 @@ export const DeleteItemButton = (id: number): JSX.Element => {
         }
     }
     return (
-        <span onClick={deleteItem}>delete</span>
+        <button className="delete-button" onClick={deleteItem}>delete</button>
     )
 }

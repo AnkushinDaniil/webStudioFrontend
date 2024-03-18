@@ -11,7 +11,6 @@
     margin: 0 0 10px 0;
     font-size: 1.2em;
     color: var(--primary);
-    cursor: pointer;
 }
 
 .item-cell p {
@@ -20,13 +19,11 @@
     color: #555;
 }
 
-.item-cell span {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    cursor: pointer;
-    background: #f1f1f1;
-    padding: 6px;
-    border-radius: 50%;
-    color: #333;
+.item-cell .container {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }

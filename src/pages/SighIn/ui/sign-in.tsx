@@ -1,6 +1,7 @@
 
 import { useSighIn } from "shared/hooks/useSighIn"
 import { useState } from "react"
+import "./sigh-in.css"
 
 export const SignIn: React.FC = () => {
     const [username, setUsername] = useState("")
