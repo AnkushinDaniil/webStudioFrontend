@@ -22,8 +22,8 @@ export const ListPage = (): ReactElement => {
                 },
             })
 
-            const json = await response.json()            
-            
+            const json = await response.json()  
+
             if (response.ok) {
                 dispatch({type: ItemActionTypes.SET_ITEMS, payload: json.data})
             }
@@ -32,7 +32,7 @@ export const ListPage = (): ReactElement => {
         if (user) {
             fetchLists()
         }
-    }, [ id, user, dispatch])    
+    }, [ id, user, items])    
 
     return (
         <div className="list-page">

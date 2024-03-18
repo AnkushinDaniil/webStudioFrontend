@@ -38,7 +38,7 @@ export const ItemCell :FC<ItemCellProps> = ({item}) => {
             </div>
             {user?.username == item?.user && (
                 <div className="container">
-                    <DeleteItemButton id={item!.id}/>
+                    <DeleteItemButton id={item!.id!}/>
                     <button>edit</button>
                 </div>
             )}
