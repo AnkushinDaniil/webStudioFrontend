@@ -28,11 +28,12 @@ export const ListPage = (): ReactElement => {
                 dispatch({type: ItemActionTypes.SET_ITEMS, payload: json.data})
             }
         }
+        console.log(123)
 
         if (user) {
             fetchLists()
         }
-    }, [ id, user, items, dispatch])    
+    }, [ id, user, dispatch])    
 
     return (
         <div className="list-page">

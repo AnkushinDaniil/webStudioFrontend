@@ -29,9 +29,6 @@ const ItemForm = (): JSX.Element => {
         e.preventDefault()
 
         const item = {title, description, start, end, done}
-        console.log(start)
-        
-        
         const response = await fetch(`/api/lists/${id}/items`, {
             headers : {
                 "Authorization": `Bearer ${user!.token}`,
@@ -53,7 +50,7 @@ const ItemForm = (): JSX.Element => {
             setDone(false)
             setError(null)
             console.log("New item was added", json)
-            dispatch!({
+            dispatch({
                 type: ItemActionTypes.CREATE_ITEM, 
                 payload: {
                     id: +json.id,

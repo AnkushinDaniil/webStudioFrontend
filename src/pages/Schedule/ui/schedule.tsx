@@ -139,9 +139,6 @@ export const Schedule:FC = () => {
     } else {
         document.body.classList.remove("active-modal")
     }
-
-
-    
    
     return (
         <div>
