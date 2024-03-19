@@ -5,6 +5,8 @@ import { useAuthContext } from "shared/hooks/useAuthContext"
 import "./schedule.css"
 import { Modal } from "widgets/modal"
 import { CalendarEvent } from "entities/event"
+import { ItemActionTypes } from "entities/item"
+import { useItemsContext } from "shared/hooks/useItemsContext"
 
 type Range = Date[] | {
     start: Date;
@@ -48,8 +50,19 @@ export const Schedule:FC = () => {
     const [date, setDate] = useState<Date>(new Date())
     const [view, setView] = useState<View>(Views.MONTH)
     const [range, setRange] = useState<Range>(getRange(date, view))
+    const [modal, setModal] = useState<boolean>(false)
+    const [event, setEvent] = useState<CalendarEvent>({
+        id: 0,
+        user: "",
+        title: "",
+        description: "",
+        start: new Date(),
+        end: new Date(),
+        done: false,
+    } )
+    const {items, dispatch} = useItemsContext()
 
-    useEffect(():void => {
+    useEffect((): void => {
         const fetchSchedule = async (): Promise<void> => {
             let start, end
             if (Array.isArray(range)) {
@@ -69,64 +82,47 @@ export const Schedule:FC = () => {
                 },
                 method: "GET",
             })
-    
-            const json = (await response.json()).data
+
+            const json = (await response.json()).data                        
         
             if (response.ok) {
-                const newEvents: CalendarEvent[] = []
-            
-                if (Array.isArray(json)) {
-                    for (const item of json) {            
-                        newEvents.push({
-                            id: item.id,
-                            user: item.username,
-                            color: item.color,
-                            title: item.title,
-                            description: item.description,
-                            start: new Date(item.start),
-                            end: new Date(item.end),
-                            done: item.done,
-                        })
-                    }
-                }
-
-                setEvents(newEvents)
+                dispatch({type: ItemActionTypes.SET_ITEMS, payload: json})
             }
         }
 
         if (user) {
             fetchSchedule()
-        }
-    }, [ user, date, view, range])    
+        }        
+    }, [ user, date, view, range, dispatch])
 
-    const toggleModal = (event: CalendarEvent):void => {
+    useEffect(():void => {
+        const newEvents:CalendarEvent[] = []
+        if (Array.isArray(items)) {            
+            for (const item of items!) {
+                newEvents.push({
+                    id: item!.id,
+                    color: item!.color,
+                    user: item!.user,
+                    title: item!.title!,
+                    description: item!.description,
+                    start: item!.start!,
+                    end: item!.end!,
+                    done: item!.done,
+                })
+            }}        
+
+        setEvents(newEvents)
+    }, [items])
+    
+    const toggleModal = useCallback((event: CalendarEvent):void => {
         setModal(!modal)      
         setEvent(event) 
-    }
+    }, [setModal, setEvent, modal])
 
     const onNavigate = useCallback((newDate: Date) => setDate(newDate), [setDate])
     const onRangeChange = useCallback((newRange: Range) => setRange(newRange), [setRange])
     const onView = useCallback((newView: View) => setView(newView), [setView])
     const onSelectEvent = useCallback((item: CalendarEvent) => toggleModal(item), [toggleModal])
-
-    const [modal, setModal] = useState<boolean>(false)
-    const [event, setEvent] = useState<CalendarEvent>({
-        id: 0,
-        user: "",
-        title: "",
-        description: "",
-        start: new Date(),
-        end: new Date(),
-        done: false,
-    } )
-  
-  
-    if(modal) {
-        document.body.classList.add("active-modal")
-    } else {
-        document.body.classList.remove("active-modal")
-    }
-
     const eventPropGetter = useCallback(
         (event: CalendarEvent) => ({
             ...{
@@ -137,6 +133,14 @@ export const Schedule:FC = () => {
         }),
         []
     )
+
+    if(modal) {
+        document.body.classList.add("active-modal")
+    } else {
+        document.body.classList.remove("active-modal")
+    }
+
+
     
    
     return (
@@ -157,11 +161,11 @@ export const Schedule:FC = () => {
             </div>
             {modal && (
                 <div className="modal">
-                    <div onClick={() => toggleModal(event)} className="overlay"></div>
+                    <div onClick={() => setModal(false)} className="overlay"></div>
                     <div className="modal-content">
                         <Modal event={event} />
                         <div className="container">
-                            <button className="close-modal" onClick={() => toggleModal(event)}>
+                            <button className="close-modal" onClick={() => setModal(false)}>
                                 {"❌"}
                             </button>
                         </div>
