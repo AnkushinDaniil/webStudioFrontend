@@ -42,6 +42,19 @@ export const itemReducer = (state: State, action: ItemActionType): State => {
     case ItemActionTypes.DELETE_ITEM:
         return {
             items: Array.isArray(state.items)? state.items.filter((item: Item):boolean => item?.id !== payload?.id) : []}
+    case ItemActionTypes.EDIT_ITEMS:
+        if (Array.isArray(state.items)) {
+            for (const item of state.items) {
+                if (item!.id == payload?.id) {
+                    items.push(payload)
+                } else {
+                    items.push(item)
+                }
+            }
+        }
+        return {
+            items: items,
+        }
     default:
         return state
     }

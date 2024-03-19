@@ -1,41 +1,53 @@
 import { useState } from "react"
 import DateTimePicker from "react-datetime-picker"
-import { useParams } from "react-router-dom"
 import { useAuthContext } from "shared/hooks/useAuthContext"
 import { useItemsContext } from "shared/hooks/useItemsContext"
 import "react-datetime-picker/dist/DateTimePicker.css"
 import "react-calendar/dist/Calendar.css"
 import "react-clock/dist/Clock.css"
-import { ItemActionTypes } from "entities/item"
+import { Item, ItemActionTypes } from "entities/item"
 
 type ValuePiece = Date | null;
 
 type Value = ValuePiece | [ValuePiece, ValuePiece];
 
-const ItemForm = (): JSX.Element => {
+const ItemEditionForm = ({item}: {item:Item}): JSX.Element => {
+    console.log(item)
+    
     const {dispatch} = useItemsContext()
-    const [title, setTitle] = useState("")
-    const [description, setDescription] = useState("")
-    const [start, setStart] = useState<Value>(new Date())
-    const [end, setEnd] = useState<Value>(new Date())
-    const [done, setDone] = useState(false)
+    const [title, setTitle] = useState(item?.title)
+    const [description, setDescription] = useState(item?.description)
+    const [start, setStart] = useState<Value>(item!.start!)
+    const [end, setEnd] = useState<Value>(item!.end!)
+    const [done, setDone] = useState(item?.done)
     const [error, setError] = useState(null)
 
     const {user} = useAuthContext()
-    const {id} = useParams()
 
+    interface Diff {
+        [key: string]: unknown
+    }
 
     const handleSubmit = async (e: { preventDefault: () => void }): Promise<void> => {
         e.preventDefault()
 
-        const item = {title, description, start, end, done}
-        const response = await fetch(`/api/lists/${id}/items`, {
+        const newItem = {title, description, start, end, done}
+        
+        const diff: Diff = {}
+        let prop: keyof typeof newItem
+        for (prop in newItem) {
+            if (newItem[prop] != item![prop]) {
+                diff[prop] = newItem[prop]
+            }
+        }
+
+        const response = await fetch(`/api/items/${item?.id}`, {
             headers : {
                 "Authorization": `Bearer ${user!.token}`,
                 "Content-Type": "application/json; charset=utf-8"
             },
-            method: "POST",
-            body: JSON.stringify(item),
+            method: "PUT",
+            body: JSON.stringify(diff),
         })
 
         const json = await response.json()
@@ -43,22 +55,19 @@ const ItemForm = (): JSX.Element => {
         if (!response.ok) {
             setError(json.message)
         } else {
-            setTitle("")
-            setDescription("")
-            setStart(new Date())
-            setEnd(new Date())
-            setDone(false)
             setError(null)
-            console.log("New item was added", json)
+            console.log("Item was edited", json)
             dispatch({
-                type: ItemActionTypes.CREATE_ITEM, 
+                type: ItemActionTypes.EDIT_ITEMS, 
                 payload: {
-                    id: +json.id,
-                    title: title,
-                    description: description,
+                    id: item!.id!,
+                    user: item!.user,
+                    color: item!.color,
+                    title: title!,
+                    description: description!,
                     start: new Date(start!.toString()),
                     end: new Date(end!.toString()),
-                    done: done
+                    done: done!
                 }}
             )
         }
@@ -102,10 +111,10 @@ const ItemForm = (): JSX.Element => {
                     checked={done}
                 />
             </div>
-            <button>Add item</button>
+            <button>Edit item</button>
             {error && <div className="error">{error}</div>}
         </form>
     )
 }
 
-export default ItemForm
+export default ItemEditionForm

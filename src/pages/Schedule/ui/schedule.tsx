@@ -112,6 +112,7 @@ export const Schedule:FC = () => {
             }}        
 
         setEvents(newEvents)
+        setModal(false)
     }, [items])
     
     const toggleModal = useCallback((event: CalendarEvent):void => {

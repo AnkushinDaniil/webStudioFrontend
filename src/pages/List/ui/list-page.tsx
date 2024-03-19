@@ -3,7 +3,7 @@ import { ReactElement, useEffect } from "react"
 import { useParams } from "react-router-dom"
 import { useAuthContext } from "shared/hooks/useAuthContext"
 import { useItemsContext } from "shared/hooks/useItemsContext"
-import ItemForm from "widgets/item/ItemForm"
+import ItemCreationForm from "widgets/item/ItemCreationForm"
 import "./list-page.css"
 import ItemDetails from "widgets/item/ItemDetails"
 
@@ -44,7 +44,7 @@ export const ListPage = (): ReactElement => {
                     ))}
                 </div>)}
             {user?.token && (
-                <ItemForm />
+                <ItemCreationForm />
             )}
         </div>
     )

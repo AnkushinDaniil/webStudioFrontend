@@ -22,9 +22,6 @@ export const Modal = ({event}: {event: CalendarEvent}): JSX.Element => {
                 <div>
                     <ItemCell item={item}/>
                 </div>)}
-            {/* {user?.token && (
-                <ItemForm />
-            )} */}
         </div>
     )
 }
