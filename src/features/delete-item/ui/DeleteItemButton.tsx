@@ -14,9 +14,15 @@ export const DeleteItemButton = ({id}: {id:number}): JSX.Element => {
             },
             method: "DELETE",
         })
-        const json = await response.json()
+        
         if (response.ok) {
-            dispatch({type:ItemActionTypes.DELETE_ITEM, payload:json})
+            dispatch({type:ItemActionTypes.DELETE_ITEM, payload:{
+                id:id, 
+                title: "", 
+                description: "", 
+                start: new Date(),
+                end: new Date(),
+                done: false}})
         }
     }
     return (
