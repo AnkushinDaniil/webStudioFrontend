@@ -17,12 +17,13 @@ export const itemReducer = (state: State, action: ItemActionType): State => {
     const { type, payload } = action
     const items = []
     switch (type) {
-    case ItemActionTypes.SET_ITEMS:
+    case ItemActionTypes.SET_ITEMS:        
         if (Array.isArray(payload)) {
-            for (const item of payload) {            
+            for (const item of payload) { 
                 items.push({
                     id: item.id,
                     user: item.username,
+                    color: item.color,
                     title: item.title,
                     description: item.description,
                     start: new Date(item.start),

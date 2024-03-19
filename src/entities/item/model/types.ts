@@ -1,6 +1,7 @@
 export type Item = {
     id: number,
     user?: string,
+    color?: string,
     title: string,
     description: string,
     start: Date,
