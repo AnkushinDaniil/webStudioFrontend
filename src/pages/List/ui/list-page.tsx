@@ -20,9 +20,9 @@ export const ListPage = (): ReactElement => {
                 headers : {
                     "Authorization": `Bearer ${user!.token}`
                 },
-            })
+            })            
 
-            const json = await response.json()  
+            const json = await response.json()              
 
             if (response.ok) {
                 dispatch({type: ItemActionTypes.SET_ITEMS, payload: json.data})
@@ -32,7 +32,7 @@ export const ListPage = (): ReactElement => {
         if (user) {
             fetchLists()
         }
-    }, [ id, user, items])    
+    }, [ id, user, items, dispatch])    
 
     return (
         <div className="list-page">
