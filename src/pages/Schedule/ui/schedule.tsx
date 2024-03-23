@@ -1,6 +1,6 @@
 import moment from "moment"
-import { useState, FC, useEffect, useCallback } from "react"
-import { momentLocalizer, Calendar, Views, View, SlotInfo } from "react-big-calendar"
+import { useState, FC, useEffect, useCallback, useMemo } from "react"
+import { momentLocalizer, Calendar, Views, View, SlotInfo, DateLocalizer } from "react-big-calendar"
 import { useAuthContext } from "shared/hooks/useAuthContext"
 import "./schedule.css"
 import { Modal } from "widgets/modal"
@@ -8,6 +8,7 @@ import { CalendarEvent } from "entities/event"
 import { ItemActionTypes } from "entities/item"
 import { useItemsContext } from "shared/hooks/useItemsContext"
 import ItemCreationForm from "widgets/item/ItemCreationForm"
+import "moment/locale/ru"
 
 type RangeArray = Date[] 
 
@@ -50,7 +51,13 @@ const getRange = (date: Date, view: View): Range => {
 export const Schedule:FC = () => {
     const {user} = useAuthContext()
 
-    const localizer = momentLocalizer(moment) // or globalizeLocalizer
+    moment.locale("ru", {
+        week: {
+            dow: 1,
+            doy: 1,
+        },
+    })
+    const localizer = momentLocalizer(moment)
     const [events, setEvents] = useState<Array<CalendarEvent>>([])
     const [date, setDate] = useState<Date>(new Date())
     const [view, setView] = useState<View>(Views.MONTH)
@@ -157,12 +164,38 @@ export const Schedule:FC = () => {
     } else {
         document.body.classList.remove("active-modal")
     }
+    const { formats } = useMemo(
+        () => ({
+            defaultDate: new Date(2015, 3, 1),
+            formats: {
+            // the 'date' on each day cell of the 'month' view
+                dateFormat: "D",
+                // the day of the week header in the 'month' view
+                weekdayFormat: (date:Date, culture:string|undefined, localizer:DateLocalizer|undefined) =>
+                    localizer!.format(date, "dddd", culture),
+                // the day header in the 'week' and 'day' (Time Grid) views
+                dayFormat: (date:Date, culture:string|undefined, localizer:DateLocalizer|undefined) =>
+                    localizer!.format(date, "dddd Do", culture),
+                // the time in the gutter in the Time Grid views
+                timeGutterFormat: (date:Date, culture:string|undefined, localizer:DateLocalizer|undefined) =>
+                    localizer!.format(date, "HH:mm", culture),
+                agendaTimeFormat: (date:Date, culture:string|undefined, localizer:DateLocalizer|undefined) =>
+                    localizer!.format(date, "HH:mm", culture),
+                agendaTimeRangeFormat: ({ start, end }: RangeStructure, culture:string|undefined, localizer:DateLocalizer|undefined) =>
+                    localizer!.format(start, "HH:mm", culture) +
+                    " - " +
+                    localizer!.format(end, "HH:mm", culture),
+            },
+        }),
+        []
+    )
    
     return (
         <div>
             <div className="myCustomHeight">
                 <Calendar
                     localizer={localizer}
+                    formats={formats}
                     events={events}
                     startAccessor="start"
                     endAccessor="end"
@@ -174,6 +207,15 @@ export const Schedule:FC = () => {
                     onView={onView}
                     onNavigate={onNavigate}
                     eventPropGetter={eventPropGetter}
+                    messages={{
+                        next: "Следующий",
+                        previous: "Предыдущий",
+                        today: "Сегодня",
+                        month: "Месяц",
+                        week: "Неделя",
+                        day: "День",
+                        agenda: "Повестка дня"
+                    }}
                 />
             </div>
             {modal && (
