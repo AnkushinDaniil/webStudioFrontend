@@ -28,7 +28,6 @@ export const ListPage = (): ReactElement => {
                 dispatch({type: ItemActionTypes.SET_ITEMS, payload: json.data})
             }
         }
-        console.log(123)
 
         if (user) {
             fetchLists()
@@ -44,7 +43,10 @@ export const ListPage = (): ReactElement => {
                     ))}
                 </div>)}
             {user?.token && (
-                <ItemCreationForm />
+                <ItemCreationForm range={{
+                    start: new Date(),
+                    end: new Date()
+                }}/>
             )}
         </div>
     )
