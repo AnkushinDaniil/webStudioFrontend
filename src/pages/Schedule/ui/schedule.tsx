@@ -1,17 +1,22 @@
 import moment from "moment"
 import { useState, FC, useEffect, useCallback } from "react"
-import { momentLocalizer, Calendar, Views, View } from "react-big-calendar"
+import { momentLocalizer, Calendar, Views, View, SlotInfo } from "react-big-calendar"
 import { useAuthContext } from "shared/hooks/useAuthContext"
 import "./schedule.css"
 import { Modal } from "widgets/modal"
 import { CalendarEvent } from "entities/event"
 import { ItemActionTypes } from "entities/item"
 import { useItemsContext } from "shared/hooks/useItemsContext"
+import ItemCreationForm from "widgets/item/ItemCreationForm"
 
-type Range = Date[] | {
+type RangeArray = Date[] 
+
+type RangeStructure = {
     start: Date;
     end: Date;
 }
+
+type Range = RangeArray | RangeStructure
 
 const getRange = (date: Date, view: View): Range => {
     let start, end
@@ -51,6 +56,8 @@ export const Schedule:FC = () => {
     const [view, setView] = useState<View>(Views.MONTH)
     const [range, setRange] = useState<Range>(getRange(date, view))
     const [modal, setModal] = useState<boolean>(false)
+    const [create, setCreate] = useState<boolean>(false)
+    const [creationRange, setCreationRange] = useState<RangeStructure>()
     const [event, setEvent] = useState<CalendarEvent>({
         id: 0,
         user: "",
@@ -113,6 +120,7 @@ export const Schedule:FC = () => {
 
         setEvents(newEvents)
         setModal(false)
+        setCreate(false)
     }, [items])
     
     const toggleModal = useCallback((event: CalendarEvent):void => {
@@ -135,6 +143,15 @@ export const Schedule:FC = () => {
         []
     )
 
+    const onSelectSlot = (slotInfo: SlotInfo): boolean => {
+        setCreationRange({
+            start: slotInfo.start,
+            end: slotInfo.end
+        })
+        setCreate(true)
+        return false
+    }
+
     if(modal) {
         document.body.classList.add("active-modal")
     } else {
@@ -150,6 +167,8 @@ export const Schedule:FC = () => {
                     startAccessor="start"
                     endAccessor="end"
                     onSelectEvent={onSelectEvent}
+                    selectable
+                    onSelectSlot={onSelectSlot}
                     onRangeChange={(range: Range) => {onRangeChange(range)}}
                     defaultView={view}
                     onView={onView}
@@ -162,6 +181,20 @@ export const Schedule:FC = () => {
                     <div onClick={() => setModal(false)} className="overlay"></div>
                     <div className="modal-content">
                         <Modal event={event} />
+                        <div className="container">
+                            <button className="close-modal" onClick={() => setModal(false)}>
+                                {"❌"}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {create && (
+                <div className="modal">
+                    <div onClick={() => {setModal(false)
+                        setCreate(false)}} className="overlay"></div>
+                    <div className="modal-content">
+                        <ItemCreationForm range={creationRange!}/>
                         <div className="container">
                             <button className="close-modal" onClick={() => setModal(false)}>
                                 {"❌"}
