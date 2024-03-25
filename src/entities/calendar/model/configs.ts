@@ -1,5 +1,6 @@
-import { DateLocalizer } from "react-big-calendar"
-import { RangeStructure } from "./types"
+import { DateLocalizer, momentLocalizer } from "react-big-calendar"
+import moment from "moment"
+import { RangeStructure } from "entities/calendar"
 
 export const studioFormats = {
     dateFormat: "D",
@@ -16,3 +17,22 @@ export const studioFormats = {
                 " - " +
                 localizer!.format(end, "HH:mm", culture),
 }
+
+export const messages = {
+    next: "Следующий",
+    previous: "Предыдущий",
+    today: "Сегодня",
+    month: "Месяц",
+    week: "Неделя",
+    day: "День",
+    agenda: "Повестка дня"
+}
+
+moment.locale("ru", {
+    week: {
+        dow: 1,
+        doy: 1,
+    },
+})
+
+export const localizer = momentLocalizer(moment)

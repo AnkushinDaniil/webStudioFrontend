@@ -1,40 +1,35 @@
 import { useEffect, useState } from "react"
-import DateTimePicker from "react-datetime-picker"
+// import DateTimePicker from "react-datetime-picker"
+// import DateTimeRangePicker from "@wojtekmaj/react-datetimerange-picker"
+// import { DateTimeRangePicker } from "@mui/x-date-pickers/DateTimeRangePicker"
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker"
 import { useAuthContext } from "shared/hooks/useAuthContext"
 import { useItemsContext } from "shared/hooks/useItemsContext"
-import "react-datetime-picker/dist/DateTimePicker.css"
-import "react-calendar/dist/Calendar.css"
-import "react-clock/dist/Clock.css"
+import "./ItemWidget.css"
 import { ItemActionTypes } from "entities/item"
 import Select from "react-select"
 import { useListsContext } from "shared/hooks/useListsContext"
-import { ListActionTypes } from "entities/list"
-
-type ValuePiece = Date | null;
-
-type Value = ValuePiece | [ValuePiece, ValuePiece];
+import moment from "moment"
+import { listsToOptions } from "./lib"
+import { fetchLists } from "entities/list"
 
 type RangeStructure = {
     start: Date;
     end: Date;
 }
 
-type Option = { 
-    value: number | undefined; 
-    label: string | undefined; 
-}
-
 const ItemCreationForm = ({range}: {range:RangeStructure}): JSX.Element => {
     const {dispatch: dispatchItems} = useItemsContext()
     const [title, setTitle] = useState("")
     const [description, setDescription] = useState("")
-    const [start, setStart] = useState<Value>(range!.start)
-    const [end, setEnd] = useState<Value>(range!.end)
+    const [start, setStart] = useState<Date>(range!.start)
+    const [end, setEnd] = useState<Date>(range!.end)
+    // const [pickedRange, setPickedRange] = useState([range.start, range.end])
     const [done, setDone] = useState<boolean>(false)
     const [error, setError] = useState(null)
     const [id, setId] = useState<number|null>(null)
-    const [options, setOptions] = useState<Array<Option>|null>(null)
-
+    
+    const {lists, dispatch} = useListsContext()
     const {user} = useAuthContext()
 
     const handleSubmit = async (e: { preventDefault: () => void }): Promise<void> => {
@@ -78,42 +73,21 @@ const ItemCreationForm = ({range}: {range:RangeStructure}): JSX.Element => {
         }
     }
 
-    const {lists, dispatch} = useListsContext()
+    useEffect(():void => {
+        if (user) {
+            fetchLists(user, dispatch)
+        }
+    }, [ user, dispatch])   
 
     useEffect(():void => {
-        const fetchLists = async (): Promise<void> => {
-            const response = await fetch("/api/lists/", {
-                headers : {
-                    "Authorization": `Bearer ${user!.token}`
-                },
-            })
-
-            const json = await response.json()            
-            
-            if (response.ok) {
-                dispatch({type: ListActionTypes.SET_LISTS, payload: json.data})
-            }
-        }
-
         if (user) {
-            fetchLists()
-            const newOptions = []
-            if (Array.isArray(lists)) {
-                for (const list of lists!) {
-                    newOptions.push({
-                        value: list?.id,
-                        label: list?.title
-                    })
-                }
-            } 
-
-            setOptions(newOptions)
+            setId(Array.isArray(lists)? lists[0]!.id : null)
         }
-    }, [ lists, user, dispatch])   
+    }, [ lists ])   
     
 
     return (
-        <form className="create" onSubmit={handleSubmit}>
+        <form className="container" onSubmit={handleSubmit}>
             <h3>Add a new item</h3>
             <label>Title:</label>
             <input 
@@ -127,31 +101,38 @@ const ItemCreationForm = ({range}: {range:RangeStructure}): JSX.Element => {
                 onChange={(e) => setDescription(e.target.value)}
                 value={description}
             />
-            <div className="container">
+            <div className="datetime">
                 <label>Start:</label>
                 <DateTimePicker 
-                    onChange={setStart}
-                    value={start!}
+                    onChange={(e) => ( setStart(e!.toDate()))}
+                    defaultValue={moment.max(moment(start), moment(start.setHours(8)))}
+                    disablePast
                 />
             </div>
-            <div className="container">
+            <div className="datetime">
                 <label>End:</label>
                 <DateTimePicker 
-                    onChange={setEnd}
-                    value={end}
+                    onChange={(e) => ( setEnd(e!.toDate()))}
+                    defaultValue={moment.min(moment(end), moment(end.setHours(23)))}
+                    disablePast
                 />
             </div>
-            <div>
-                <label>Done:</label>
-                <input 
-                    type="checkbox"
-                    onChange={() => setDone(!done)}
-                    checked={done}
-                />
-            </div>
+
+            <label>Done:</label>
+            <input 
+                type="checkbox"
+                onChange={() => setDone(!done)}
+                checked={done}
+            />
             <div>
                 <label>List:</label>
-                <Select options={options!} onChange={(selectedOption) => setId(selectedOption!.value!)}/>
+                {Array.isArray(lists) && (
+                    <Select 
+                        options={listsToOptions(lists)!} 
+                        defaultValue={listsToOptions(lists)![0]}
+                        onChange={(selectedOption) => setId(selectedOption!.value!)}
+                    />
+                )}
             </div>
             <button>Add item</button>
             {error && <div className="error">{error}</div>}

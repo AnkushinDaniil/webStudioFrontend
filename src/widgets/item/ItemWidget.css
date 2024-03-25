@@ -1,0 +1,9 @@
+label,
+input {
+    display: inline
+}
+
+.datetime {
+    display: flex;
+    justify-content: space-between;
+}

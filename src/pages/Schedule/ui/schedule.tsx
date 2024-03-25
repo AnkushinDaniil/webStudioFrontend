@@ -1,22 +1,11 @@
-import { CalendarEvent } from "entities/event"
-import moment from "moment"
+import { CalendarEvent, RangeStructure } from "entities/calendar"
 import { FC, useState } from "react"
 import { SlotInfo } from "react-big-calendar"
 import ItemCreationForm from "widgets/item/ItemCreationForm"
 import { Modal } from "widgets/modal"
 import { StudioCalendar } from "widgets/calendar"
-import { RangeStructure } from "widgets/calendar/model/types"
-
-
 
 export const Schedule:FC = () => {
-
-    moment.locale("ru", {
-        week: {
-            dow: 1,
-            doy: 1,
-        },
-    })
 
     const [modal, setModal] = useState<boolean>(false)
     const [create, setCreate] = useState<boolean>(false)
@@ -40,7 +29,7 @@ export const Schedule:FC = () => {
         return false
     }
 
-    if(modal) {
+    if(modal || create) {
         document.body.classList.add("active-modal")
     } else {
         document.body.classList.remove("active-modal")

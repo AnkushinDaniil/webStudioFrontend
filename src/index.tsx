@@ -5,19 +5,24 @@ import { AuthContextProvider } from "./shared/context/AuthContext"
 import { ListContextProvider } from "./shared/context/ListContext"
 import App from "App"
 import { ItemContextProvider } from "shared/context/ItemContext"
+import { LocalizationProvider } from "@mui/x-date-pickers"
+import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment"
+import "moment/locale/ru"
 
 const root = ReactDOM.createRoot(
   document.getElementById("root")!
 )
 root.render(
     <React.StrictMode>
-        <AuthContextProvider>
-            <ListContextProvider>
-                <ItemContextProvider>
-                    <App />
-                </ItemContextProvider>
-            </ListContextProvider>
-        </AuthContextProvider>
+        <LocalizationProvider dateAdapter={AdapterMoment} adapterLocale="ru">
+            <AuthContextProvider>
+                <ListContextProvider>
+                    <ItemContextProvider>
+                        <App />
+                    </ItemContextProvider>
+                </ListContextProvider>
+            </AuthContextProvider>
+        </LocalizationProvider>
     </React.StrictMode>
 )
 

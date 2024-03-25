@@ -1,6 +1,6 @@
 import { ItemActionType, ItemActionTypes } from "entities/item"
 import { User } from "entities/user"
-import { Range } from "./types"
+import { Range } from "entities/calendar"
 
 export const fetchSchedule = async (
     range:  Range, 

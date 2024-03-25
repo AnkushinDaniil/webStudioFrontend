@@ -1,6 +1,6 @@
 import { useAuthContext } from "shared/hooks/useAuthContext"
 import "./modal.css"
-import { CalendarEvent } from "entities/event"
+import { CalendarEvent } from "entities/calendar"
 import { ItemCell } from "entities/item"
 
 export const Modal = ({event}: {event: CalendarEvent}): JSX.Element => {

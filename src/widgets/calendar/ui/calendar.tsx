@@ -1,15 +1,13 @@
-import moment from "moment"
 import { useState, useEffect, useCallback, useMemo } from "react"
-import { momentLocalizer, Calendar, Views, View, SlotInfo } from "react-big-calendar"
+import { Calendar, Views, View, SlotInfo } from "react-big-calendar"
 import { useAuthContext } from "shared/hooks/useAuthContext"
 import "./calendar.css"
-import { CalendarEvent } from "entities/event"
+import { CalendarEvent, SetBool, SetEvent, Range } from "entities/calendar"
 import { useItemsContext } from "shared/hooks/useItemsContext"
 import "moment/locale/ru"
-import {Range} from "../model/types"
-import { getRange } from "../model/lib"
-import { studioFormats } from "../model/formats"
-import { fetchSchedule } from "../model/api"
+import { getRange } from "../../../entities/calendar/model/lib"
+import { localizer, messages, studioFormats } from "../../../entities/calendar/model/configs"
+import { fetchSchedule } from "../../../entities/calendar/model/api"
 
 
 export const StudioCalendar = ({
@@ -18,21 +16,14 @@ export const StudioCalendar = ({
     setCreate,
     modal, 
     onSelectSlot
-}: {setModal: React.Dispatch<React.SetStateAction<boolean>>, 
-    setEvent: React.Dispatch<React.SetStateAction<CalendarEvent>>,
-    setCreate: React.Dispatch<React.SetStateAction<boolean>>,
+}: {setModal: SetBool, 
+    setEvent: SetEvent,
+    setCreate: SetBool,
     modal: boolean, 
     onSelectSlot: (slotInfo: SlotInfo) => boolean
 }): JSX.Element => {
     const {user} = useAuthContext()
 
-    moment.locale("ru", {
-        week: {
-            dow: 1,
-            doy: 1,
-        },
-    })
-    const localizer = momentLocalizer(moment)
     const [events, setEvents] = useState<Array<CalendarEvent>>([])
     const [date, setDate] = useState<Date>(new Date())
     const [view, setView] = useState<View>(Views.MONTH)
@@ -115,15 +106,7 @@ export const StudioCalendar = ({
                 onView={onView}
                 onNavigate={onNavigate}
                 eventPropGetter={eventPropGetter}
-                messages={{
-                    next: "Следующий",
-                    previous: "Предыдущий",
-                    today: "Сегодня",
-                    month: "Месяц",
-                    week: "Неделя",
-                    day: "День",
-                    agenda: "Повестка дня"
-                }}
+                messages={messages}
             />
         </div>
     )

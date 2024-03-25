@@ -1,6 +1,6 @@
 import moment from "moment"
 import { View } from "react-big-calendar"
-import { Range } from "./types"
+import { Range } from "entities/calendar"
 
 export const getRange = (date: Date, view: View): Range => {
     let start, end
