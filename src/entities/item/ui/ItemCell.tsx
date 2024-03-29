@@ -13,6 +13,7 @@ interface ItemCellProps {
 export const ItemCell :FC<ItemCellProps> = ({item}) => {  
     const {user} = useAuthContext()  
     const [form, setForm] = useState<boolean>(false)
+    const now = new Date()
     
     return (
         <div>
@@ -41,7 +42,7 @@ export const ItemCell :FC<ItemCellProps> = ({item}) => {
                         <label>Done:</label>
                         <p>{item?.done? "✓" : "Х"}</p>
                     </div>
-                    {user?.username == item?.user && (
+                    {(user!.username == item!.user && item!.end > now) && (
                         <div className="container">
                             <DeleteItemButton id={item!.id!}/>
                             <button onClick={() => setForm(true)}>edit</button>

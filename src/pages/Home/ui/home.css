@@ -2,3 +2,14 @@
     background-image: url(https://imgs.search.brave.com/jftqqHbYYJkVdJRgsgvXww7Kp9TCaDWt-0XhWkuIMks/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvNjI2/NDY0MTU4L3Bob3Rv/L2NhdC13aXRoLW9w/ZW4tbW91dGguanBn/P3M9NjEyeDYxMiZ3/PTAmaz0yMCZjPVFy/OURDVmt3S21fZHpm/amtlTjVmb0NCcDdj/M0VmQkZfaTJBMGV0/WWlKT0E9);
     min-height: 1000px;
 }
+
+.home-container {
+    max-width: 100%;
+    max-height: 100px;
+    margin: 0 auto;
+    padding: 10px 20px;
+    display: grid;
+    /* align-items: center; */
+    justify-content: space-between;
+    margin-left: 10px;
+}

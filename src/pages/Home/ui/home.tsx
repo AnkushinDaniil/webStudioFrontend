@@ -11,9 +11,9 @@ export const Home: FC = () => {
     return (
         <div className="home" >
             {user?.token && (
-                <div>
-                    <Link className="list-details" to="/lists">Lists</Link>
-                    <Link className="list-details" to="/schedule">Schedule</Link>
+                <div className="home-container">
+                    <Link to="/lists">Lists</Link>
+                    <Link to="/schedule">Schedule</Link>
                 </div>
             )}
         </div>
