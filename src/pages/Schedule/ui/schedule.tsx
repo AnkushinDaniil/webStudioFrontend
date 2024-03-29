@@ -19,13 +19,19 @@ export const Schedule:FC = () => {
         end: new Date(),
         done: false,
     } )
+
+    const startSchedule = new Date()
+    startSchedule.setHours(8, 0, 0, 0)
+    const endSchedule = new Date()
+    endSchedule.setHours(23, 0, 0, 0)
     
     const onSelectSlot = (slotInfo: SlotInfo): boolean => {
-        setCreationRange({
-            start: slotInfo.start,
-            end: slotInfo.end
-        })
-        setCreate(true)
+        if (slotInfo.start >= new Date() && slotInfo.start.getHours() > 7 && slotInfo.start.getHours() < 23) {
+            setCreationRange({
+                start: slotInfo.start,
+                end: slotInfo.end
+            })
+            setCreate(true)}
         return false
     }
 

@@ -76,6 +76,31 @@ export const StudioCalendar = ({
         }),
         []
     )
+ 
+    const dayPropGetter = useCallback(
+        (date: Date) => ({
+            ...(date < new Date() && {
+                style: {
+                    backgroundColor: "lightgray",
+                },
+            }),
+        }),
+        []
+    )
+    
+    const slotPropGetter = useCallback(
+        (date:Date) => ({
+            className: "slotDefault",
+            ...((date.getHours() < 8 || date.getHours() > 22) && {
+                style: {
+                    backgroundColor: "lightgray",
+                    color: "black",
+                },
+            }),
+        }),
+        []
+    )
+
 
     if(modal) {
         document.body.classList.add("active-modal")
@@ -99,13 +124,15 @@ export const StudioCalendar = ({
                 startAccessor="start"
                 endAccessor="end"
                 onSelectEvent={onSelectEvent}
-                selectable
+                selectable = {true}
                 onSelectSlot={onSelectSlot}
                 onRangeChange={onRangeChange}
                 defaultView={view}
                 onView={onView}
                 onNavigate={onNavigate}
                 eventPropGetter={eventPropGetter}
+                dayPropGetter={dayPropGetter}
+                slotPropGetter={slotPropGetter}
                 messages={messages}
             />
         </div>
