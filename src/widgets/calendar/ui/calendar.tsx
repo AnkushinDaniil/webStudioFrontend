@@ -2,13 +2,10 @@ import { useState, useEffect, useCallback, useMemo } from "react"
 import { Calendar, Views, View, SlotInfo } from "react-big-calendar"
 import { useAuthContext } from "shared/hooks/useAuthContext"
 import "./calendar.css"
-import { CalendarEvent, SetBool, SetEvent, Range } from "entities/calendar"
+import { CalendarEvent, SetBool, SetEvent, Range, fetchSchedule, getRange, localizer, messages, studioFormats } from "entities/calendar"
 import { useItemsContext } from "shared/hooks/useItemsContext"
 import "moment/locale/ru"
-import { getRange } from "../../../entities/calendar/model/lib"
-import { localizer, messages, studioFormats } from "../../../entities/calendar/model/configs"
-import { fetchSchedule } from "../../../entities/calendar/model/api"
-
+import { useLogout } from "shared/hooks/useLogout"
 
 export const StudioCalendar = ({
     setModal, 
@@ -23,7 +20,7 @@ export const StudioCalendar = ({
     onSelectSlot: (slotInfo: SlotInfo) => boolean
 }): JSX.Element => {
     const {user} = useAuthContext()
-
+    const { logout } = useLogout()
     const [events, setEvents] = useState<Array<CalendarEvent>>([])
     const [date, setDate] = useState<Date>(new Date())
     const [view, setView] = useState<View>(Views.MONTH)
@@ -32,7 +29,7 @@ export const StudioCalendar = ({
 
     useEffect((): void => {
         if (user) {
-            fetchSchedule(range, dispatch, user)
+            fetchSchedule(range, dispatch, user, logout)
         }        
     }, [ user, date, view, range, dispatch])
 

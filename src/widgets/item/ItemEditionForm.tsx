@@ -71,7 +71,7 @@ const ItemEditionForm = ({item}: {item:Item}): JSX.Element => {
             defaultTitle = {item!.title}
             defaultDescription = {item!.description}
             defaultDone = {item!.done}
-            defaultListId = {item!.id}
+            defaultListId = {null}
             handleSubmitGenerator = {handleSubmitGenerator}
             isEdit = {true}
         />

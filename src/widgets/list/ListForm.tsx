@@ -34,7 +34,7 @@ const ListForm = (): JSX.Element => {
             setDescription("")
             setError(null)
             console.log("New list was added", json)
-            dispatch!({
+            dispatch({
                 type: ListActionTypes.CREATE_LIST, 
                 payload: {
                     id: +json.id,

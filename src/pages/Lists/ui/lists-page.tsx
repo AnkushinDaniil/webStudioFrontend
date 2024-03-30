@@ -5,12 +5,14 @@ import { useListsContext } from "shared/hooks/useListsContext"
 import ListDetails from "widgets/list/ListDetails"
 import ListForm from "widgets/list/ListForm"
 import "./lists-page.css"
+import { useLogout } from "shared/hooks/useLogout"
 
 
 
 export const ListsPage = (): ReactElement => {
     const {user} = useAuthContext()
     const {lists, dispatch} = useListsContext()
+    const { logout } = useLogout()
 
     useEffect(():void => {
         const fetchLists = async (): Promise<void> => {
@@ -24,6 +26,9 @@ export const ListsPage = (): ReactElement => {
             
             if (response.ok) {
                 dispatch({type: ListActionTypes.SET_LISTS, payload: json.data})
+            } else if (response.status == 401) {
+                location.href = "/"
+                logout()
             }
         }
 

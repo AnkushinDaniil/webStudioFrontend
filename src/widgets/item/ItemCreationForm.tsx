@@ -1,8 +1,9 @@
 import { useAuthContext } from "shared/hooks/useAuthContext"
 import { useItemsContext } from "shared/hooks/useItemsContext"
 import "./ItemWidget.css"
-import { ItemActionTypes } from "entities/item"
+import { Item, fetchCreateItem } from "entities/item"
 import { ItemForm } from "./ItemForm"
+import { useLogout } from "shared/hooks/useLogout"
 
 type RangeStructure = {
     start: Date;
@@ -11,8 +12,8 @@ type RangeStructure = {
 
 const ItemCreationForm = ({range}: {range:RangeStructure}): JSX.Element => {
     const {dispatch: dispatchItems} = useItemsContext()
-
     const {user} = useAuthContext()
+    const {logout} = useLogout()
 
     const handleSubmitGenerator = (
         title: string, 
@@ -26,35 +27,14 @@ const ItemCreationForm = ({range}: {range:RangeStructure}): JSX.Element => {
     ): Promise<void> => {
         e.preventDefault()
 
-        const item = {title, description, start, end, done}
-        const response = await fetch(`/api/lists/${listId}/items`, {
-            headers : {
-                "Authorization": `Bearer ${user!.token}`,
-                "Content-Type": "application/json; charset=utf-8"
-            },
-            method: "POST",
-            body: JSON.stringify(item),
-        })
-
-        const json = await response.json()
-            
-        if (!response.ok) {
-            console.log(json.message)
-        } else {
-            dispatchItems({
-                type: ItemActionTypes.CREATE_ITEM, 
-                payload: {
-                    id: +json.id,
-                    title: title,
-                    color: json.color,
-                    user: user?.username,
-                    description: description,
-                    start: new Date(start!.toString()),
-                    end: new Date(end!.toString()),
-                    done: done
-                }}
-            )
+        const item: Item = {
+            title: title,
+            description: description, 
+            start: start,
+            end:end, 
+            done: done
         }
+        await fetchCreateItem(listId!, item, user!, dispatchItems, logout)
     } }
     
 

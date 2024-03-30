@@ -5,8 +5,10 @@ import { Range } from "entities/calendar"
 export const fetchSchedule = async (
     range:  Range, 
     dispatch: (value: ItemActionType) => void, 
-    user: User | undefined
+    user: User | undefined,
+    logout: () => void
 ): Promise<void> => {
+    
     let start, end
     if (Array.isArray(range)) {
         start = new Date(range[0])
@@ -30,5 +32,8 @@ export const fetchSchedule = async (
 
     if (response.ok) {
         dispatch({type: ItemActionTypes.SET_ITEMS, payload: json})
+    } else if (response.status == 401) {
+        location.href = "/"
+        logout()
     }
 }

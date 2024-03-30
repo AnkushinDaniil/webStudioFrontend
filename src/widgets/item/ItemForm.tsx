@@ -5,8 +5,9 @@ import "./ItemWidget.css"
 import Select from "react-select"
 import { useListsContext } from "shared/hooks/useListsContext"
 import moment from "moment"
-import { listsToOptions } from "./lib"
+import { listsToOptions, validateRange } from "./lib"
 import { fetchLists } from "entities/list"
+import { useLogout } from "shared/hooks/useLogout"
 
 type RangeStructure = {
     start: Date;
@@ -34,6 +35,7 @@ export const ItemForm = (
         isEdit: boolean,
     }): JSX.Element => {
     const [title, setTitle] = useState(defaultTitle)
+    const [isTitleEmpty, setIsTitleEmpty] = useState(true)
     const [description, setDescription] = useState(defaultDescription)
     const [start, setStart] = useState<Date>(range!.start)
     const [end, setEnd] = useState<Date>(range!.end)
@@ -48,46 +50,53 @@ export const ItemForm = (
     endSchedule.setMonth(range.end.getMonth())
     endSchedule.setDate(range.end.getDate())
     endSchedule.setHours(23, 0, 0, 0)
-    // if (start < startSchedule) {
-    //     setStart(startSchedule)
-    // }
-    // if (end > endSchedule) {
-    //     setEnd(endSchedule)
-    // }
-    // const [pickedRange, setPickedRange] = useState([range.start, range.end])
+
     const [done, setDone] = useState<boolean>(defaultDone)
     const [error, setError] = useState<string|null>(null)
     const [id, setId] = useState<number|null>(defaultListId)
     
     const {lists, dispatch} = useListsContext()
     const {user} = useAuthContext()
+    const { logout } = useLogout()
 
     useEffect(():void => {
         if (user) {
-            fetchLists(user, dispatch)
+            fetchLists(user, dispatch, logout)
         }
-    }, [ user, dispatch])   
+    }, [ user, dispatch, logout])   
 
     useEffect(():void => {
         if (user) {
             setId(Array.isArray(lists)? lists[0]!.id : null)
         }
-    }, [ lists ])   
+    }, [ lists, user ]) 
+    
+    useEffect(():void => {
+        if (title == "" != isTitleEmpty) {
+            setIsTitleEmpty(!isTitleEmpty)
+        }
+    }, [ title ]) 
 
     useEffect(():void => {
-        console.log(start)
-        console.log(end)
-        
-        if (title === "") {
-            setError("Пожалуйста, напишите название") 
-        } else if (start > end || start < now || start.getHours() < 8 || start.getHours() >= 23) {
-            setError("Пожалуйста, проверьте правильность заполнения даты и времени")
-        } else if (id === null) {
-            setError("Пожалуйста, выберете список")
-        } else {
-            setError(null)
+        const validation = async (): Promise<void> => {
+            setError(await validateRange(start, end, user!))
+            console.log(error)
+            
+            if (error == null) {
+                if (isTitleEmpty) {
+                    setError("Пожалуйста, напишите название") 
+                } else if (start > end || start < now || start.getHours() < 8 || start.getHours() >= 23) {
+                    setError("Пожалуйста, проверьте правильность заполнения даты и времени")
+                } else if (id === null) {
+                    setError("Пожалуйста, выберете список")
+                } else {
+                    setError(null)
+                }
+            }
         }
-    }, [ title, start, end, id ])   
+        validation()
+    }, [ start, end, id, isTitleEmpty, user ])   
+
 
     const handleSubmit = handleSubmitGenerator(title, description, start, end, done, id!)
     

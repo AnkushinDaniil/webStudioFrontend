@@ -14,6 +14,7 @@ export const ListContext = createContext<CurrentListContextType|null>(null)
 
 export const listReducer = (state: State, action: ListActionType): State => {
     const { type, payload } = action
+    const lists = []
     switch (type) {
     case ListActionTypes.SET_LISTS:
         return {
@@ -26,6 +27,19 @@ export const listReducer = (state: State, action: ListActionType): State => {
     case ListActionTypes.DELETE_LIST:
         return {
             lists: Array.isArray(state.lists)? state.lists.filter((list: List):boolean => list?.id !== payload?.id) : []}
+    case ListActionTypes.EDIT_LIST:
+        if (Array.isArray(state.lists)) {
+            for (const item of state.lists) {
+                if (item!.id == payload?.id) {
+                    lists.push(payload)
+                } else {
+                    lists.push(item)
+                }
+            }
+        }
+        return {
+            lists: lists,
+        }
     default:
         return state
     }

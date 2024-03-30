@@ -6,6 +6,7 @@ import { useItemsContext } from "shared/hooks/useItemsContext"
 import ItemCreationForm from "widgets/item/ItemCreationForm"
 import "./list-page.css"
 import ItemDetails from "widgets/item/ItemDetails"
+import { useLogout } from "shared/hooks/useLogout"
 
 
 
@@ -13,6 +14,7 @@ export const ListPage = (): ReactElement => {
     const {user} = useAuthContext()
     const {id} = useParams()
     const {items, dispatch} = useItemsContext()
+    const { logout } = useLogout()
 
     useEffect(():void => {
         const fetchLists = async (): Promise<void> => {
@@ -26,6 +28,9 @@ export const ListPage = (): ReactElement => {
 
             if (response.ok) {
                 dispatch({type: ItemActionTypes.SET_ITEMS, payload: json.data})
+            } else if (response.status == 401) {
+                location.href = "/"
+                logout()
             }
         }
 
