@@ -17,22 +17,26 @@ export const Navbar: React.FC = () => {
         <header>
             <div className="container">
                 <Link to="/">
-                    <h1>frisson.tattoo</h1>
+                    <img className="img" src={"/f.png"}></img>
                 </Link>
-                <nav>
-                    {user && (
-                        <div>
-                            <span>{user.username}</span>
-                            <button onClick={handleClick}>Log out</button>
-                        </div>
-                    )}
-                    {!user?.token && (
-                        <div>
-                            <Link to="/sign-in">Sign in</Link>
-                            <Link to="/sign-up">Sign up</Link>
-                        </div>
-                    )}
-                </nav>
+                <div>главная</div>
+                <div>о нас</div>
+                <div>наши мастера</div>
+                <div>отзывы</div>
+                <div>аренда</div>
+            
+                {user && (
+                    <div>{user.username}</div>
+                )}
+                {user && (
+                    <div onClick={handleClick}>Log out</div>
+                )}
+                {!user?.token && (
+                    <Link to="/sign-in">вход</Link>
+                )}
+                {!user?.token && (
+                    <Link to="/sign-up">регистрация</Link>
+                )}
             </div>
         </header>
     )

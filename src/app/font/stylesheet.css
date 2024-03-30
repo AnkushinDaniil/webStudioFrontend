@@ -1,0 +1,12 @@
+@font-face {
+    font-family: 'Leotaro';
+    src: url('Leotaro-Regular.eot');
+    src: url('Leotaro-Regular.eot?#iefix') format('embedded-opentype'),
+        url('Leotaro-Regular.woff2') format('woff2'),
+        url('Leotaro-Regular.woff') format('woff'),
+        url('Leotaro-Regular.ttf') format('truetype'),
+        url('Leotaro-Regular.svg#Leotaro-Regular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}

@@ -1,5 +1,6 @@
 /* google font */
-@import url("https://fonts.googleapis.com/css?family=Montserrat:400,700/");
+/* @import url("https://fonts.googleapis.com/css?family=Montserrat:400,700/"); */
+@import "./font/stylesheet.css";
 
 /* layout */
 :root {
@@ -8,16 +9,18 @@
 }
 
 body {
-    background: #f1f1f1;
+    /* background: #f1f1f1; */
+    background-image: url("./pictures/main.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     margin: 0;
-    font-family: "Montserrat";
-}
-
-header {
-    background: #fff;
+    font-family: "Leotaro";
 }
 
 header .container {
+    color: #ffffff;
     max-width: 1400px;
     margin: 0 auto;
     padding: 10px 20px;
@@ -27,7 +30,7 @@ header .container {
 }
 
 header a {
-    color: #333;
+    color: #ffffff;
     text-decoration: none;
 }
 

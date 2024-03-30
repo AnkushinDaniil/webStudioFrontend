@@ -13,7 +13,21 @@ nav button {
     border: 2px solid var(--primary);
     padding: 6px 10px;
     border-radius: 4px;
-    font-family: "Montserrat";
     cursor: pointer;
     font-size: 1em;
+}
+
+div.user-login {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.div {
+    display: flex;
+    padding: 10px 20px;
+}
+
+img.img {
+    width: 100px;
 }
