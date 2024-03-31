@@ -6,6 +6,7 @@ import { CalendarEvent, SetBool, SetEvent, Range, fetchSchedule, getRange, local
 import { useItemsContext } from "shared/hooks/useItemsContext"
 import "moment/locale/ru"
 import { useLogout } from "shared/hooks/useLogout"
+import hexToRgba from "hex-to-rgba"
 
 export const StudioCalendar = ({
     setModal, 
@@ -67,7 +68,7 @@ export const StudioCalendar = ({
         (event: CalendarEvent) => ({
             ...{
                 style: {
-                    backgroundColor: `#${event.color}`,
+                    backgroundColor: `${hexToRgba(event.color!, "0.8")}`,
                 },
             }
         }),
@@ -78,7 +79,7 @@ export const StudioCalendar = ({
         (date: Date) => ({
             ...(date < new Date() && {
                 style: {
-                    backgroundColor: "lightgray",
+                    backgroundColor: "rgba(255, 255, 255, 0.5)",
                 },
             }),
         }),
@@ -90,7 +91,7 @@ export const StudioCalendar = ({
             className: "slotDefault",
             ...((date.getHours() < 8 || date.getHours() > 22) && {
                 style: {
-                    backgroundColor: "lightgray",
+                    backgroundColor: "rgba(255, 255, 255, 0.5)",
                     color: "black",
                 },
             }),
@@ -135,3 +136,4 @@ export const StudioCalendar = ({
         </div>
     )
 }
+

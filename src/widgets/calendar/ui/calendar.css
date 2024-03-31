@@ -6,6 +6,27 @@
 
 .rbc-calendar {
     min-height: 600px;
+    background-color: rgba(255, 255, 255, 0.3);
+    font-family: "Leotaro";
+}
+
+.rbc-toolbar button {
+    font-family: "Leotaro";
+    color: #fefefe;
+    -webkit-text-stroke: 0.01px black;
+}
+
+.rbc-toolbar button.rbc-active {
+    color: black;
+}
+
+button {
+    font-family: "Leotaro";
+    color: #fefefe;
+}
+
+body {
+    color: #fefefe;
 }
 
 body.active-modal {
