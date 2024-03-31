@@ -29,5 +29,32 @@ div.user-login {
 }
 
 img.img {
-    width: 100px;
+    width: 5vw;
+}
+
+header .container {
+    color: #ffffff;
+    margin: 0 auto;
+    padding: 10px 20px;
+    display: grid;
+    grid-auto-flow: column;
+    grid-column-gap: 15px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+header .navbar {
+    margin: auto;
+    padding: 10px 10px;
+    display: grid;
+    grid-auto-flow: column;
+    grid-column-gap: 5px;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 1vw;
+}
+
+.vl {
+    border-left: 1px solid rgb(255, 255, 255);
+    height: 50px;
 }

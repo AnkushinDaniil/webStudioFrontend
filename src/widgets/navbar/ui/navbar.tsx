@@ -15,27 +15,34 @@ export const Navbar: React.FC = () => {
 
     return (
         <header>
-            <div className="container">
-                <Link to="/">
-                    <img className="img" src={"/f.png"}></img>
-                </Link>
-                <div>главная</div>
-                <div>о нас</div>
-                <div>наши мастера</div>
-                <div>отзывы</div>
-                <div>аренда</div>
+            <div className="navbar">
+                <div className="container">
+                    <Link to="/">
+                        <img className="img" src={"/f.png"}></img>
+                    </Link>
+                    <Link to="/">главная</Link>
+                    <Link to="/">о нас</Link>
+                    <Link to="/">наши мастера</Link>
+                    <Link to="/">отзывы</Link>
+                    <Link to="/">аренда</Link>
             
+               
+                </div>
+                <div className="vl"></div>
                 {user && (
-                    <div>{user.username}</div>
+                    <div className="container">
+                        <div>{user.username}</div>
+                        <Link to="/lists">списки</Link>
+                        <Link to="/schedule">расписание</Link>
+                        <div onClick={handleClick}>выйти</div>
+                    </div>
                 )}
-                {user && (
-                    <div onClick={handleClick}>Log out</div>
-                )}
-                {!user?.token && (
-                    <Link to="/sign-in">вход</Link>
-                )}
-                {!user?.token && (
-                    <Link to="/sign-up">регистрация</Link>
+                {!user && (
+                    <div className="container">
+                        <Link to="/sign-in">вход</Link>
+                        <Link to="/sign-up">регистрация</Link>
+
+                    </div>
                 )}
             </div>
         </header>

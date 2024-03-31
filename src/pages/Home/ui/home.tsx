@@ -1,6 +1,5 @@
 
 import { FC } from "react"
-import { Link } from "react-router-dom"
 import { useAuthContext } from "shared/hooks/useAuthContext"
 import "./home.css"
 
@@ -12,8 +11,10 @@ export const Home: FC = () => {
         <div className="home" >
             {user?.token && (
                 <div className="home-container">
-                    <Link to="/lists">Lists</Link>
-                    <Link to="/schedule">Schedule</Link>
+                    <div>мы тату студия делаем татулировки вот</div>
+                    <div>наши мастера самые лучшие вот</div>
+                    <div>отзывы такие: "в этой студии лучшие мастера делают лучшие татулировки!!!"</div>
+                    <div>аренда дорого</div>
                 </div>
             )}
         </div>
