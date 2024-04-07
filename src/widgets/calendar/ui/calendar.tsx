@@ -30,7 +30,7 @@ export const StudioCalendar = ({
 
     useEffect((): void => {
         if (user) {
-            fetchSchedule(range, dispatch, user, logout)
+            fetchSchedule(getRange(date, view), dispatch, user, logout)
         }        
     }, [ user, date, view, range, dispatch])
 
