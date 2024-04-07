@@ -17,15 +17,15 @@ export const fetchSchedule = async (
         start = range.start
         end = range.end
     }
-    start.setHours(0, 0, 0)
-    end.setHours(23, 59, 59)
+    start.setHours(0, 0, 0, 0)
+    end.setHours(23, 59, 59, 999)
+
+    const url = `/api/schedule?start=${start.toISOString()}&end=${end.toISOString()}`
     
-    const response = await fetch(`/api/schedule?start=${start.toISOString()}&end=${end.toISOString()}`, {
+    const response = await fetch(url, {
         headers : {
             "Authorization": `Bearer ${user?.token}`,
-            "Content-Type": "application/json; charset=utf-8"
         },
-        method: "GET",
     })
 
     const json = (await response.json()).data                        
