@@ -12,6 +12,6 @@ export const DeleteItemButton = ({id}: {id:number}): JSX.Element => {
         await fetchDeleteItem(id, user!, dispatch, logout)
     }
     return (
-        <button className="delete-button" onClick={deleteItem}>delete</button>
+        <button className="delete-button" onClick={deleteItem}>удалить</button>
     )
 }

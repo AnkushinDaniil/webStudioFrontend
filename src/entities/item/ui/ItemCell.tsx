@@ -25,27 +25,27 @@ export const ItemCell :FC<ItemCellProps> = ({item}) => {
                         <p>{item?.description}</p>
                     </div>
                     <div className="container">
-                        <label>Master:</label>
+                        <label>Мастер:</label>
                         <p>{item?.user}</p>
                     </div>
                     <div className="container">
-                        <label>Start:</label>
+                        <label>Начало:</label>
                         <p>{item?.start.toLocaleDateString()}</p>
                         <p>{item?.start.toLocaleTimeString()}</p>
                     </div>
                     <div className="container">
-                        <label>End:</label>
+                        <label>Конец:</label>
                         <p>{item?.end.toLocaleDateString()}</p>
                         <p>{item?.end.toLocaleTimeString()}</p>
                     </div>
                     <div className="container">
-                        <label>Done:</label>
+                        <label>Выполнено:</label>
                         <p>{item?.done? "✓" : "Х"}</p>
                     </div>
                     {(user!.username == item!.user && item!.end > now) && (
                         <div className="container">
                             <DeleteItemButton id={item!.id!}/>
-                            <button onClick={() => setForm(true)}>edit</button>
+                            <button onClick={() => setForm(true)}>редактировать</button>
                         </div>
                     )}
                 </div>
